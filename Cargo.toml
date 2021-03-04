@@ -1,0 +1,13 @@
+[package]
+name = "template-generator"
+version = "0.1.0"
+authors = ["Link <xieaolin@gmail.com>"]
+edition = "2018"
+
+# See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
+
+[dependencies]
+blake2b-ref = "0.3"
+ckb-hash = "0.40.0"
+das-types = { path = "../das-types/rust", features = ["std"] }
+faster-hex = "0.5.0"
