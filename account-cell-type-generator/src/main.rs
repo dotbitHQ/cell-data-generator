@@ -30,7 +30,7 @@ fn main() {
         &[0],
     ]
     .concat();
-    let action_witness = das_util::wrap_action_witness("init-account-chain", None);
+    let action_witness = das_util::wrap_action_witness("init_account_chain", None);
     let cell_witness =
         das_util::wrap_data_witness(DataType::AccountCellData, Some((1, 0, entity)), None, None);
 
