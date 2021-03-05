@@ -8,6 +8,8 @@ mod bloom_filter;
 mod util;
 
 fn gen_config_cell_main() -> String {
+    // ⚠️ Do not modify the following lines of type_id_table,
+    // it will be use for search and replace in deploy scripts.
     let type_id_table = TypeIdTable::new_builder()
         .apply_register_cell(Hash::default())
         .pre_account_cell(Hash::default())
@@ -78,12 +80,12 @@ fn gen_config_cell_register() -> String {
         .build();
 
     let entity = ConfigCellRegister::new_builder()
-        .apply_min_waiting_time(Uint32::from(60))
-        .apply_max_waiting_time(Uint32::from(86400))
+        .apply_min_waiting_block_number(Uint32::from(60))
+        .apply_max_waiting_block_number(Uint32::from(86400))
         .account_max_length(Uint32::from(1000))
         .char_sets(char_sets)
         .price_configs(price_config)
-        .proposal_min_confirm_require(Uint8::from(4))
+        .proposal_min_confirm_interval(Uint8::from(4))
         .proposal_min_extend_interval(Uint8::from(2))
         .proposal_min_recycle_interval(Uint8::from(6))
         .proposal_max_account_affect(Uint32::from(50))
