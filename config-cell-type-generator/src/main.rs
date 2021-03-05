@@ -171,5 +171,5 @@ fn main() {
     let config3 = gen_config_cell_bloom_filter();
     let config4 = gen_config_cell_market();
 
-    println!("{}, {}, {}, {}", config1, config2, config3, config4);
+    println!("{},{},{},{}", config1, config2, config3, config4);
 }
