@@ -11,15 +11,15 @@ fn gen_config_cell_main() -> String {
     // ⚠️ Do not modify the following lines of type_id_table,
     // it will be use for search and replace in deploy scripts.
     let type_id_table = TypeIdTable::new_builder()
-        .apply_register_cell(Hash::default())
-        .pre_account_cell(Hash::default())
-        .proposal_cell(Hash::default())
-        .ref_cell(Hash::default())
-        .account_cell(Hash::default())
+        .apply_register_cell(Hash::from([151, 232, 245, 67, 207, 94, 104, 93, 140, 106, 205, 34, 195, 137, 22, 177, 84, 83, 203, 107, 108, 24, 91, 62, 60, 58, 67, 141, 47, 29, 151, 181]))
+        .pre_account_cell(Hash::from([29, 90, 249, 224, 198, 31, 27, 67, 244, 147, 134, 69, 50, 108, 55, 158, 74, 19, 4, 131, 14, 248, 123, 43, 73, 239, 244, 182, 175, 78, 212, 172]))
+        .proposal_cell(Hash::from([119, 173, 236, 90, 225, 19, 113, 49, 87, 37, 216, 42, 51, 151, 65, 218, 170, 138, 146, 40, 52, 144, 69, 173, 254, 36, 56, 114, 166, 127, 235, 224]))
+        .ref_cell(Hash::from([109, 86, 167, 36, 157, 34, 188, 249, 232, 156, 100, 62, 83, 246, 90, 24, 130, 56, 62, 45, 251, 165, 182, 81, 15, 195, 66, 87, 217, 255, 74, 190]))
+        .account_cell(Hash::from([44, 37, 101, 241, 35, 174, 206, 48, 63, 50, 153, 35, 255, 208, 103, 110, 202, 175, 100, 219, 33, 73, 77, 15, 15, 18, 212, 36, 252, 249, 183, 186]))
         .on_sale_cell(Hash::default())
         .bidding_cell(Hash::default())
         .primary_market_cell(Hash::default())
-        .wallet_cell(Hash::default())
+        .wallet_cell(Hash::from([150, 217, 93, 216, 230, 127, 183, 61, 104, 248, 138, 192, 3, 209, 216, 227, 118, 196, 36, 152, 21, 116, 247, 242, 48, 71, 115, 63, 53, 150, 202, 136]))
         .build();
 
     let entity = ConfigCellMain::new_builder()
@@ -156,7 +156,7 @@ fn gen_config_cell_market() -> String {
     let config_id = (ConfigID::ConfigCellMarket as u32).to_le_bytes();
     let cell_data = Bytes::from(blake2b_256(entity.as_slice()).to_vec());
     let action_witness = das_util::wrap_action_witness("config", None);
-    let cell_witness = das_util::wrap_entity_witness(DataType::ConfigCellMain, entity);
+    let cell_witness = das_util::wrap_entity_witness(DataType::ConfigCellMarket, entity);
 
     format!(
         "0x{} 0x{} 0x{} 0x{}",
