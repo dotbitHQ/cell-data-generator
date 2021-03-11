@@ -139,6 +139,10 @@ fn gen_config_cell_bloom_filter() -> String {
     bf.insert(b"das");
     let mut entity = bf.export_bit_u8();
 
+    let mut length = (entity.len() as u32 + 4).to_le_bytes().to_vec();
+    length.extend(entity);
+    entity = length;
+
     let config_id = (ConfigID::ConfigCellBloomFilter as u32).to_le_bytes();
     let cell_data = Bytes::from(blake2b_256(entity.as_slice()).to_vec());
     let action_witness = das_util::wrap_action_witness("config", None);
