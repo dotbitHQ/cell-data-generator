@@ -77,6 +77,12 @@ fn gen_config_cell_register() -> String {
         .profit_rate_of_channel(Uint32::from(1000))
         .profit_rate_of_inviter(Uint32::from(1000))
         .profit_rate_of_das(Uint32::from(8000))
+        .profit_rate_of_proposal_create(Uint32::from(400))
+        .profit_rate_of_proposal_confirm(Uint32::from(100))
+        .build();
+
+    let discount_config = DiscountConfig::new_builder()
+        .invited_discount(Uint32::from(500))
         .build();
 
     let entity = ConfigCellRegister::new_builder()
@@ -91,6 +97,7 @@ fn gen_config_cell_register() -> String {
         .proposal_max_account_affect(Uint32::from(50))
         .proposal_max_pre_account_contain(Uint32::from(50))
         .profit(profit_config)
+        .discount(discount_config)
         .build();
 
     let config_id = (ConfigID::ConfigCellRegister as u32).to_le_bytes();
