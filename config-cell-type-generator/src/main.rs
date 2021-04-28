@@ -5,6 +5,7 @@ use faster_hex::hex_string;
 use util::{gen_char_set, gen_price_config};
 
 mod bloom_filter;
+mod charset;
 mod util;
 
 fn gen_config_cell_main() -> String {
@@ -22,10 +23,6 @@ fn gen_config_cell_main() -> String {
         .proposal_cell(Hash::from([
             65, 84, 181, 249, 17, 75, 141, 45, 216, 50, 62, 234, 213, 213, 231, 29, 9, 89, 162,
             220, 115, 240, 103, 46, 130, 154, 228, 218, 191, 253, 178, 216,
-        ]))
-        .ref_cell(Hash::from([
-            231, 153, 83, 240, 36, 85, 46, 97, 48, 34, 10, 3, 210, 73, 125, 199, 194, 247, 132,
-            244, 41, 124, 105, 186, 33, 208, 196, 35, 145, 83, 80, 229,
         ]))
         .account_cell(Hash::from([
             39, 71, 117, 228, 117, 193, 37, 43, 83, 51, 194, 14, 21, 18, 183, 177, 41, 108, 76, 91,
@@ -73,28 +70,17 @@ fn gen_config_cell_register() -> String {
         .build();
 
     let char_sets = CharSetList::new_builder()
-        .push(gen_char_set(CharSetType::Emoji, 1, vec!["😂", "👍", "✨"]))
-        .push(gen_char_set(
-            CharSetType::Digit,
-            1,
-            vec!["0", "1", "2", "3", "4", "5", "6", "7", "8", "9"],
-        ))
-        .push(gen_char_set(
-            CharSetType::En,
-            0,
-            vec![
-                "a", "b", "c", "d", "e", "f", "g", "h", "i", "j", "k", "l", "m", "n", "o", "p",
-                "q", "r", "s", "t", "u", "v", "w", "x", "y", "z",
-            ],
-        ))
+        .push(gen_char_set(CharSetType::Emoji, 1, charset::emoji()))
+        .push(gen_char_set(CharSetType::Digit, 1, charset::digit()))
+        .push(gen_char_set(CharSetType::En, 0, charset::english()))
         .build();
 
     let profit_config = ProfitConfig::new_builder()
-        .profit_rate_of_channel(Uint32::from(1000))
-        .profit_rate_of_inviter(Uint32::from(1000))
+        .profit_rate_of_channel(Uint32::from(800))
+        .profit_rate_of_inviter(Uint32::from(800))
         .profit_rate_of_das(Uint32::from(8000))
         .profit_rate_of_proposal_create(Uint32::from(400))
-        .profit_rate_of_proposal_confirm(Uint32::from(100))
+        .profit_rate_of_proposal_confirm(Uint32::from(0))
         .build();
 
     let discount_config = DiscountConfig::new_builder()
@@ -138,9 +124,9 @@ fn gen_config_cell_bloom_filter() -> String {
     bf.insert(b"qq");
     bf.insert(b"ali");
     bf.insert(b"baidu");
-    bf.insert(b"das00001");
-    bf.insert(b"das00002");
-    bf.insert(b"das00003");
+    bf.insert(b"facebook");
+    bf.insert(b"youtube");
+    bf.insert(b"twitter");
     bf.insert(b"das");
     let mut entity = bf.export_bit_u8();
 

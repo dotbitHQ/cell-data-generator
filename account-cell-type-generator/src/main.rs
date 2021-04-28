@@ -9,14 +9,9 @@ fn main() {
     let account = AccountChars::default();
     let expired_at = u64::MAX.to_le_bytes();
 
-    let owner_lock = Script::default();
-    let manager_lock = Script::default();
-
     let entity = AccountCellData::new_builder()
         .id(AccountId::try_from(id.clone()).unwrap())
         .account(account)
-        .owner_lock(owner_lock)
-        .manager_lock(manager_lock)
         .registered_at(Uint64::from(0))
         .status(Uint8::from(0))
         .build();
