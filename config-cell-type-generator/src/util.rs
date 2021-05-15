@@ -21,3 +21,11 @@ pub fn gen_char_set(name: CharSetType, global: u8, chars: Vec<&str>) -> CharSet 
 
     builder.build()
 }
+
+pub fn prepend_molecule_like_length(raw: Vec<u8>) -> Vec<u8> {
+    // Prepend length of bytes to raw data, include the bytes of length itself.
+    let mut entity = (raw.len() as u32 + 4).to_le_bytes().to_vec();
+    entity.extend(raw);
+
+    entity
+}

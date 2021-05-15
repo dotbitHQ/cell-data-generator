@@ -1,64 +1,137 @@
-use bloom_filter::BloomFilter;
 use ckb_hash::blake2b_256;
 use das_types::{constants::*, packed::*, prelude::*, util as das_util};
 use faster_hex::hex_string;
-use util::{gen_char_set, gen_price_config};
+use std::io::BufRead;
+use std::path::PathBuf;
+use std::{env, fs, io};
+use util::{gen_char_set, gen_price_config, prepend_molecule_like_length};
 
-mod bloom_filter;
 mod charset;
 mod util;
+
+macro_rules! gen_return_from_entity {
+    ( $config_type:expr, $entity:expr ) => {{
+        let config_type = ($config_type as u32).to_le_bytes();
+        let cell_data = Bytes::from(blake2b_256($entity.as_slice()).to_vec());
+        let action_witness = das_util::wrap_action_witness("config", None);
+
+        let cell_witness = das_util::wrap_entity_witness($config_type, $entity);
+
+        format!(
+            "0x{} 0x{} 0x{} 0x{}",
+            hex_string(&config_type).unwrap(),
+            hex_string(cell_data.as_reader().raw_data()).unwrap(),
+            hex_string(action_witness.as_reader().raw_data()).unwrap(),
+            hex_string(cell_witness.as_reader().raw_data()).unwrap(),
+        )
+    }};
+}
+
+macro_rules! gen_return_from_raw {
+    ( $config_type:expr, $entity:expr ) => {{
+        let config_type = ($config_type as u32).to_le_bytes();
+        let cell_data = Bytes::from(blake2b_256($entity.as_slice()).to_vec());
+        let action_witness = das_util::wrap_action_witness("config", None);
+
+        let cell_witness = das_util::wrap_raw_witness($config_type, $entity);
+
+        format!(
+            "0x{} 0x{} 0x{} 0x{}",
+            hex_string(&config_type).unwrap(),
+            hex_string(cell_data.as_reader().raw_data()).unwrap(),
+            hex_string(action_witness.as_reader().raw_data()).unwrap(),
+            hex_string(cell_witness.as_reader().raw_data()).unwrap(),
+        )
+    }};
+}
+
+fn gen_config_cell_account() -> String {
+    let entity = ConfigCellAccount::new_builder()
+        .max_length(Uint32::from(1000))
+        .basic_capacity(Uint64::from(20_000_000_000))
+        .expiration_grace_period(Uint32::from(2_592_000))
+        .record_min_ttl(Uint32::from(300))
+        .build();
+
+    gen_return_from_entity!(DataType::ConfigCellAccount, entity)
+}
+
+fn gen_config_cell_apply() -> String {
+    let entity = ConfigCellApply::new_builder()
+        .apply_min_waiting_block_number(Uint32::from(1))
+        .apply_max_waiting_block_number(Uint32::from(5760))
+        .build();
+
+    gen_return_from_entity!(DataType::ConfigCellApply, entity)
+}
+
+fn gen_config_cell_char_set() -> String {
+    let char_sets = CharSetList::new_builder()
+        .push(gen_char_set(CharSetType::Emoji, 1, charset::emoji()))
+        .push(gen_char_set(CharSetType::Digit, 1, charset::digit()))
+        .push(gen_char_set(CharSetType::En, 0, charset::english()))
+        .build();
+
+    let entity = ConfigCellCharSet::new_builder()
+        .char_sets(char_sets)
+        .build();
+
+    gen_return_from_entity!(DataType::ConfigCellCharSet, entity)
+}
+
+fn gen_config_cell_income() -> String {
+    let entity = ConfigCellIncome::new_builder()
+        .basic_capacity(Uint64::from(20_000_000_000))
+        .max_records(Uint32::from(100))
+        .build();
+
+    gen_return_from_entity!(DataType::ConfigCellIncome, entity)
+}
 
 fn gen_config_cell_main() -> String {
     // ⚠️ Do not modify the following lines of type_id_table,
     // it will be use for search and replace in deploy scripts.
     let type_id_table = TypeIdTable::new_builder()
         .apply_register_cell(Hash::from([
-            162, 195, 162, 177, 141, 168, 151, 189, 36, 57, 26, 146, 25, 86, 228, 93, 36, 91, 70,
-            22, 157, 106, 204, 154, 6, 99, 49, 109, 21, 181, 28, 177,
+            15, 191, 248, 113, 221, 5, 174, 225, 253, 162, 190, 56, 120, 106, 210, 29, 82, 162,
+            118, 92, 96, 37, 209, 239, 105, 39, 215, 97, 213, 26, 60, 209,
         ]))
         .pre_account_cell(Hash::from([
-            146, 214, 169, 82, 91, 154, 5, 66, 34, 152, 42, 180, 116, 11, 230, 254, 66, 129, 230,
-            95, 255, 82, 171, 37, 46, 125, 175, 147, 6, 225, 46, 63,
+            108, 132, 65, 35, 63, 0, 116, 25, 85, 246, 94, 71, 103, 33, 161, 165, 65, 121, 151,
+            193, 228, 54, 136, 1, 201, 156, 127, 97, 127, 139, 117, 68,
         ]))
         .proposal_cell(Hash::from([
-            65, 84, 181, 249, 17, 75, 141, 45, 216, 50, 62, 234, 213, 213, 231, 29, 9, 89, 162,
-            220, 115, 240, 103, 46, 130, 154, 228, 218, 191, 253, 178, 216,
+            103, 212, 140, 9, 17, 228, 6, 81, 141, 226, 17, 107, 217, 28, 106, 243, 124, 5, 241,
+            219, 35, 51, 76, 168, 41, 210, 175, 48, 66, 66, 126, 68,
         ]))
         .account_cell(Hash::from([
-            39, 71, 117, 228, 117, 193, 37, 43, 83, 51, 194, 14, 21, 18, 183, 177, 41, 108, 76, 91,
-            82, 162, 90, 162, 235, 214, 228, 31, 88, 148, 196, 31,
+            213, 100, 26, 205, 166, 4, 225, 237, 52, 34, 251, 54, 22, 0, 127, 36, 226, 130, 102,
+            196, 183, 111, 102, 7, 115, 130, 150, 200, 39, 140, 42, 79,
         ]))
         .on_sale_cell(Hash::default())
         .bidding_cell(Hash::default())
         .primary_market_cell(Hash::default())
         .wallet_cell(Hash::from([
-            152, 120, 178, 38, 223, 148, 101, 194, 21, 253, 60, 148, 220, 159, 155, 246, 100, 141,
-            91, 234, 72, 162, 69, 121, 207, 131, 39, 79, 225, 56, 1, 210,
+            6, 106, 105, 159, 91, 186, 157, 196, 180, 91, 253, 122, 70, 241, 197, 187, 26, 9, 45,
+            192, 235, 7, 136, 16, 53, 143, 173, 47, 7, 105, 140, 55,
         ]))
         .build();
 
     let entity = ConfigCellMain::new_builder()
-        .account_expiration_grace_period(Uint32::from(2_592_000)) // 30 days
-        .min_ttl(Uint32::from(300))
+        // .account_expiration_grace_period(Uint32::from(2_592_000)) // 30 days
+        // .min_ttl(Uint32::from(300))
         .type_id_table(type_id_table)
         .build();
 
-    let config_id = (ConfigID::ConfigCellMain as u32).to_le_bytes();
-    let cell_data = Bytes::from(blake2b_256(entity.as_slice()).to_vec());
-    let action_witness = das_util::wrap_action_witness("config", None);
-    let cell_witness = das_util::wrap_entity_witness(DataType::ConfigCellMain, entity);
-
-    format!(
-        "0x{} 0x{} 0x{} 0x{}",
-        hex_string(&config_id).unwrap(),
-        hex_string(cell_data.as_reader().raw_data()).unwrap(),
-        hex_string(action_witness.as_reader().raw_data()).unwrap(),
-        hex_string(cell_witness.as_reader().raw_data()).unwrap(),
-    )
+    gen_return_from_entity!(DataType::ConfigCellMain, entity)
 }
 
-fn gen_config_cell_register() -> String {
-    let price_config = PriceConfigList::new_builder()
+fn gen_config_cell_price() -> String {
+    let discount = DiscountConfig::new_builder()
+        .invited_discount(Uint32::from(500))
+        .build();
+
+    let prices = PriceConfigList::new_builder()
         .push(gen_price_config(1, 12_000_000, 1_200_000))
         .push(gen_price_config(2, 11_000_000, 1_100_000))
         .push(gen_price_config(3, 10_000_000, 1_000_000))
@@ -69,122 +142,102 @@ fn gen_config_cell_register() -> String {
         .push(gen_price_config(8, 5_000_000, 500_000))
         .build();
 
-    let char_sets = CharSetList::new_builder()
-        .push(gen_char_set(CharSetType::Emoji, 1, charset::emoji()))
-        .push(gen_char_set(CharSetType::Digit, 1, charset::digit()))
-        .push(gen_char_set(CharSetType::En, 0, charset::english()))
+    let entity = ConfigCellPrice::new_builder()
+        .discount(discount)
+        .prices(prices)
         .build();
 
-    let profit_config = ProfitConfig::new_builder()
-        .profit_rate_of_channel(Uint32::from(800))
-        .profit_rate_of_inviter(Uint32::from(800))
-        .profit_rate_of_das(Uint32::from(8000))
-        .profit_rate_of_proposal_create(Uint32::from(400))
-        .profit_rate_of_proposal_confirm(Uint32::from(0))
-        .build();
+    gen_return_from_entity!(DataType::ConfigCellPrice, entity)
+}
 
-    let discount_config = DiscountConfig::new_builder()
-        .invited_discount(Uint32::from(500))
-        .build();
-
-    let entity = ConfigCellRegister::new_builder()
-        .apply_min_waiting_block_number(Uint32::from(1))
-        .apply_max_waiting_block_number(Uint32::from(5760))
-        .account_max_length(Uint32::from(1000))
-        .char_sets(char_sets)
-        .price_configs(price_config)
+fn gen_config_cell_proposal() -> String {
+    let entity = ConfigCellProposal::new_builder()
         .proposal_min_confirm_interval(Uint8::from(2))
         .proposal_min_extend_interval(Uint8::from(1))
-        .proposal_min_recycle_interval(Uint8::from(4))
+        .proposal_min_recycle_interval(Uint8::from(8))
         .proposal_max_account_affect(Uint32::from(50))
         .proposal_max_pre_account_contain(Uint32::from(50))
-        .profit(profit_config)
-        .discount(discount_config)
         .build();
 
-    let config_id = (ConfigID::ConfigCellRegister as u32).to_le_bytes();
-    let cell_data = Bytes::from(blake2b_256(entity.as_slice()).to_vec());
-    let action_witness = das_util::wrap_action_witness("config", None);
-    let cell_witness = das_util::wrap_entity_witness(DataType::ConfigCellRegister, entity);
-
-    format!(
-        "0x{} 0x{} 0x{} 0x{}",
-        hex_string(&config_id).unwrap(),
-        hex_string(cell_data.as_reader().raw_data()).unwrap(),
-        hex_string(action_witness.as_reader().raw_data()).unwrap(),
-        hex_string(cell_witness.as_reader().raw_data()).unwrap(),
-    )
+    gen_return_from_entity!(DataType::ConfigCellProposal, entity)
 }
 
-fn gen_config_cell_bloom_filter() -> String {
-    let mut bf = BloomFilter::new(1438, 10);
-    bf.insert(b"google");
-    bf.insert(b"apple");
-    bf.insert(b"microsoft");
-    bf.insert(b"qq");
-    bf.insert(b"ali");
-    bf.insert(b"baidu");
-    bf.insert(b"facebook");
-    bf.insert(b"youtube");
-    bf.insert(b"twitter");
-    bf.insert(b"das");
-    let mut entity = bf.export_bit_u8();
+fn gen_config_cell_profit_rate() -> String {
+    let entity = ConfigCellProfitRate::new_builder()
+        .channel(Uint32::from(800))
+        .inviter(Uint32::from(800))
+        .das(Uint32::from(8000))
+        .proposal_create(Uint32::from(400))
+        .proposal_confirm(Uint32::from(0))
+        .income_consolidate(Uint32::from(0))
+        .build();
 
-    let mut length = (entity.len() as u32 + 4).to_le_bytes().to_vec();
-    length.extend(entity);
-    entity = length;
-
-    let config_id = (ConfigID::ConfigCellBloomFilter as u32).to_le_bytes();
-    let cell_data = Bytes::from(blake2b_256(entity.as_slice()).to_vec());
-    let action_witness = das_util::wrap_action_witness("config", None);
-    let cell_witness = das_util::wrap_raw_witness(DataType::ConfigCellBloomFilter, entity);
-
-    format!(
-        "0x{} 0x{} 0x{} 0x{}",
-        hex_string(&config_id).unwrap(),
-        hex_string(cell_data.as_reader().raw_data()).unwrap(),
-        hex_string(action_witness.as_reader().raw_data()).unwrap(),
-        hex_string(cell_witness.as_reader().raw_data()).unwrap(),
-    )
+    gen_return_from_entity!(DataType::ConfigCellProfitRate, entity)
 }
 
-fn gen_config_cell_market() -> String {
-    let primary_market_config = MarketConfig::new_builder()
-        .max_auction_waiting(Uint32::from(86400))
-        .min_auction_raise_rate(Uint32::from(1000))
-        .build();
+fn gen_config_cell_record_key_namespace() -> String {
+    let dir = env::current_dir().unwrap();
+    let mut file_path = PathBuf::new();
+    file_path.push(dir);
+    file_path.push("record_key_namespace.txt");
 
-    let secondary_market_config = MarketConfig::new_builder()
-        .max_auction_time(Uint32::from(2_592_000))
-        .max_auction_waiting(Uint32::from(86400))
-        .max_selling_time(Uint32::from(2_592_000))
-        .min_auction_raise_rate(Uint32::from(1000))
-        .build();
+    // Read record keys from file, then sort them.
+    let file = fs::File::open(file_path).expect("Expect file ./record_key_namespace.txt exist.");
+    let lines = io::BufReader::new(file).lines();
+    let mut record_key_namespace = Vec::new();
+    for line in lines {
+        if let Ok(key) = line {
+            record_key_namespace.push(key);
+        }
+    }
+    record_key_namespace.sort();
 
-    let entity = ConfigCellMarket::new_builder()
-        .primary_market(primary_market_config)
-        .secondary_market(secondary_market_config)
-        .build();
+    // Join all record keys with 0x00 byte as entity.
+    let mut raw = Vec::new();
+    for key in record_key_namespace {
+        raw.extend(key.as_bytes());
+        raw.extend(&[0u8]);
+    }
+    let raw = prepend_molecule_like_length(raw);
 
-    let config_id = (ConfigID::ConfigCellMarket as u32).to_le_bytes();
-    let cell_data = Bytes::from(blake2b_256(entity.as_slice()).to_vec());
-    let action_witness = das_util::wrap_action_witness("config", None);
-    let cell_witness = das_util::wrap_entity_witness(DataType::ConfigCellMarket, entity);
+    gen_return_from_raw!(DataType::ConfigCellRecordKeyNamespace, raw)
+}
 
-    format!(
-        "0x{} 0x{} 0x{} 0x{}",
-        hex_string(&config_id).unwrap(),
-        hex_string(cell_data.as_reader().raw_data()).unwrap(),
-        hex_string(action_witness.as_reader().raw_data()).unwrap(),
-        hex_string(cell_witness.as_reader().raw_data()).unwrap(),
-    )
+fn gen_config_cell_reserved_account() -> String {
+    let dir = env::current_dir().unwrap();
+    let mut file_path = PathBuf::new();
+    file_path.push(dir);
+    file_path.push("reserved_accounts.txt");
+
+    // Read record keys from file, then sort them.
+    let file = fs::File::open(file_path).expect("Expect file ./reserved_accounts.txt exist.");
+    let lines = io::BufReader::new(file).lines();
+    let mut account_hashes = Vec::new();
+    for line in lines {
+        if let Ok(account) = line {
+            let account_hash = blake2b_256(account.as_bytes());
+            account_hashes.push(account_hash.get(..10).unwrap().to_vec());
+        }
+    }
+    account_hashes.sort();
+    let mut raw = account_hashes.into_iter().flatten().collect::<Vec<u8>>();
+    raw = prepend_molecule_like_length(raw);
+
+    gen_return_from_raw!(DataType::ConfigCellRecordKeyNamespace, raw)
 }
 
 fn main() {
-    let config1 = gen_config_cell_main();
-    let config2 = gen_config_cell_register();
-    let config3 = gen_config_cell_bloom_filter();
-    let config4 = gen_config_cell_market();
-
-    println!("{},{},{},{}", config1, config2, config3, config4);
+    println!(
+        "{},{},{},{},{},{},{},{},{},{}",
+        gen_config_cell_account(),
+        gen_config_cell_apply(),
+        gen_config_cell_char_set(),
+        gen_config_cell_income(),
+        gen_config_cell_main(),
+        gen_config_cell_price(),
+        gen_config_cell_proposal(),
+        gen_config_cell_profit_rate(),
+        gen_config_cell_record_key_namespace(),
+        gen_config_cell_reserved_account()
+    );
 }
