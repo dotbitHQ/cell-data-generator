@@ -17,12 +17,16 @@ fn main() {
         .build();
 
     let hash = Hash::try_from(blake2b_256(entity.as_slice()).to_vec()).unwrap();
+    // The merkle root of DAS team's members' messages.
+    let message: Vec<u8> = vec![
+        0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+    ];
     let cell_data = [
         hash.as_reader().raw_data(),
         id.as_slice(),
         next.as_slice(),
         &expired_at[..],
-        &[0],
+        message.as_slice(),
     ]
     .concat();
     let action_witness = das_util::wrap_action_witness("init_account_chain", None);

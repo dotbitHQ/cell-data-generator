@@ -18,7 +18,8 @@ macro_rules! gen_return_from_entity {
         let cell_witness = das_util::wrap_entity_witness($config_type, $entity);
 
         format!(
-            "0x{} 0x{} 0x{} 0x{}",
+            "{} 0x{} 0x{} 0x{} 0x{}",
+            $config_type as u32,
             hex_string(&config_type).unwrap(),
             hex_string(cell_data.as_reader().raw_data()).unwrap(),
             hex_string(action_witness.as_reader().raw_data()).unwrap(),
@@ -36,7 +37,8 @@ macro_rules! gen_return_from_raw {
         let cell_witness = das_util::wrap_raw_witness($config_type, $entity);
 
         format!(
-            "0x{} 0x{} 0x{} 0x{}",
+            "{} 0x{} 0x{} 0x{} 0x{}",
+            $config_type as u32,
             hex_string(&config_type).unwrap(),
             hex_string(cell_data.as_reader().raw_data()).unwrap(),
             hex_string(action_witness.as_reader().raw_data()).unwrap(),
