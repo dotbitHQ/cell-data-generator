@@ -92,10 +92,20 @@ fn gen_config_cell_main() -> String {
     // ⚠️ Do not modify the following lines of type_id_table,
     // it will be use for search and replace in deploy scripts.
     let type_id_table = TypeIdTable::new_builder()
+        .account_cell(Hash::from([
+            213, 100, 26, 205, 166, 4, 225, 237, 52, 34, 251, 54, 22, 0, 127, 36, 226, 130, 102,
+            196, 183, 111, 102, 7, 115, 130, 150, 200, 39, 140, 42, 79,
+        ]))
         .apply_register_cell(Hash::from([
             15, 191, 248, 113, 221, 5, 174, 225, 253, 162, 190, 56, 120, 106, 210, 29, 82, 162,
             118, 92, 96, 37, 209, 239, 105, 39, 215, 97, 213, 26, 60, 209,
         ]))
+        .bidding_cell(Hash::default())
+        .income_cell(Hash::from([
+            15, 191, 248, 113, 221, 5, 174, 225, 253, 162, 190, 56, 120, 106, 210, 29, 82, 162,
+            118, 92, 96, 37, 209, 239, 105, 39, 215, 97, 213, 26, 60, 209,
+        ]))
+        .on_sale_cell(Hash::default())
         .pre_account_cell(Hash::from([
             108, 132, 65, 35, 63, 0, 116, 25, 85, 246, 94, 71, 103, 33, 161, 165, 65, 121, 151,
             193, 228, 54, 136, 1, 201, 156, 127, 97, 127, 139, 117, 68,
@@ -103,17 +113,6 @@ fn gen_config_cell_main() -> String {
         .proposal_cell(Hash::from([
             103, 212, 140, 9, 17, 228, 6, 81, 141, 226, 17, 107, 217, 28, 106, 243, 124, 5, 241,
             219, 35, 51, 76, 168, 41, 210, 175, 48, 66, 66, 126, 68,
-        ]))
-        .account_cell(Hash::from([
-            213, 100, 26, 205, 166, 4, 225, 237, 52, 34, 251, 54, 22, 0, 127, 36, 226, 130, 102,
-            196, 183, 111, 102, 7, 115, 130, 150, 200, 39, 140, 42, 79,
-        ]))
-        .on_sale_cell(Hash::default())
-        .bidding_cell(Hash::default())
-        .primary_market_cell(Hash::default())
-        .wallet_cell(Hash::from([
-            6, 106, 105, 159, 91, 186, 157, 196, 180, 91, 253, 122, 70, 241, 197, 187, 26, 9, 45,
-            192, 235, 7, 136, 16, 53, 143, 173, 47, 7, 105, 140, 55,
         ]))
         .build();
 

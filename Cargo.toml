@@ -2,5 +2,4 @@
 members = [
     "account-cell-type-generator",
     "config-cell-type-generator",
-    "wallet-cell-type-generator",
 ]
