@@ -92,28 +92,13 @@ fn gen_config_cell_main() -> String {
     // ⚠️ Do not modify the following lines of type_id_table,
     // it will be use for search and replace in deploy scripts.
     let type_id_table = TypeIdTable::new_builder()
-        .account_cell(Hash::from([
-            213, 100, 26, 205, 166, 4, 225, 237, 52, 34, 251, 54, 22, 0, 127, 36, 226, 130, 102,
-            196, 183, 111, 102, 7, 115, 130, 150, 200, 39, 140, 42, 79,
-        ]))
-        .apply_register_cell(Hash::from([
-            15, 191, 248, 113, 221, 5, 174, 225, 253, 162, 190, 56, 120, 106, 210, 29, 82, 162,
-            118, 92, 96, 37, 209, 239, 105, 39, 215, 97, 213, 26, 60, 209,
-        ]))
+        .account_cell(Hash::from([213, 100, 26, 205, 166, 4, 225, 237, 52, 34, 251, 54, 22, 0, 127, 36, 226, 130, 102, 196, 183, 111, 102, 7, 115, 130, 150, 200, 39, 140, 42, 79]))
+        .apply_register_cell(Hash::from([15, 191, 248, 113, 221, 5, 174, 225, 253, 162, 190, 56, 120, 106, 210, 29, 82, 162, 118, 92, 96, 37, 209, 239, 105, 39, 215, 97, 213, 26, 60, 209]))
         .bidding_cell(Hash::default())
-        .income_cell(Hash::from([
-            15, 191, 248, 113, 221, 5, 174, 225, 253, 162, 190, 56, 120, 106, 210, 29, 82, 162,
-            118, 92, 96, 37, 209, 239, 105, 39, 215, 97, 213, 26, 60, 209,
-        ]))
+        .income_cell(Hash::from([8, 209, 205, 198, 171, 146, 217, 202, 190, 0, 150, 162, 199, 100, 47, 115, 208, 239, 27, 36, 201, 76, 67, 242, 28, 108, 58, 50, 255, 224, 187, 94]))
         .on_sale_cell(Hash::default())
-        .pre_account_cell(Hash::from([
-            108, 132, 65, 35, 63, 0, 116, 25, 85, 246, 94, 71, 103, 33, 161, 165, 65, 121, 151,
-            193, 228, 54, 136, 1, 201, 156, 127, 97, 127, 139, 117, 68,
-        ]))
-        .proposal_cell(Hash::from([
-            103, 212, 140, 9, 17, 228, 6, 81, 141, 226, 17, 107, 217, 28, 106, 243, 124, 5, 241,
-            219, 35, 51, 76, 168, 41, 210, 175, 48, 66, 66, 126, 68,
-        ]))
+        .pre_account_cell(Hash::from([108, 132, 65, 35, 63, 0, 116, 25, 85, 246, 94, 71, 103, 33, 161, 165, 65, 121, 151, 193, 228, 54, 136, 1, 201, 156, 127, 97, 127, 139, 117, 68]))
+        .proposal_cell(Hash::from([103, 212, 140, 9, 17, 228, 6, 81, 141, 226, 17, 107, 217, 28, 106, 243, 124, 5, 241, 219, 35, 51, 76, 168, 41, 210, 175, 48, 66, 66, 126, 68]))
         .build();
 
     let entity = ConfigCellMain::new_builder()
@@ -222,7 +207,7 @@ fn gen_config_cell_reserved_account() -> String {
     let mut raw = account_hashes.into_iter().flatten().collect::<Vec<u8>>();
     raw = prepend_molecule_like_length(raw);
 
-    gen_return_from_raw!(DataType::ConfigCellRecordKeyNamespace, raw)
+    gen_return_from_raw!(DataType::ConfigCellPreservedAccount00, raw)
 }
 
 fn main() {
