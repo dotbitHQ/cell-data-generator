@@ -92,7 +92,7 @@ fn gen_config_cell_main() -> String {
     // ⚠️ Do not modify the following lines of type_id_table,
     // it will be use for search and replace in deploy scripts.
     let type_id_table = TypeIdTable::new_builder()
-        .account_cell(Hash::from([213, 100, 26, 205, 166, 4, 225, 237, 52, 34, 251, 54, 22, 0, 127, 36, 226, 130, 102, 196, 183, 111, 102, 7, 115, 130, 150, 200, 39, 140, 42, 79]))
+        .account_cell(Hash::from([235, 35, 107, 4, 114, 196, 196, 181, 50, 168, 27, 83, 164, 50, 82, 10, 219, 109, 129, 111, 193, 184, 71, 230, 173, 124, 246, 54, 106, 43, 106, 149]))
         .apply_register_cell(Hash::from([15, 191, 248, 113, 221, 5, 174, 225, 253, 162, 190, 56, 120, 106, 210, 29, 82, 162, 118, 92, 96, 37, 209, 239, 105, 39, 215, 97, 213, 26, 60, 209]))
         .bidding_cell(Hash::default())
         .income_cell(Hash::from([8, 209, 205, 198, 171, 146, 217, 202, 190, 0, 150, 162, 199, 100, 47, 115, 208, 239, 27, 36, 201, 76, 67, 242, 28, 108, 58, 50, 255, 224, 187, 94]))
@@ -150,7 +150,6 @@ fn gen_config_cell_profit_rate() -> String {
     let entity = ConfigCellProfitRate::new_builder()
         .channel(Uint32::from(800))
         .inviter(Uint32::from(800))
-        .das(Uint32::from(8000))
         .proposal_create(Uint32::from(400))
         .proposal_confirm(Uint32::from(0))
         .income_consolidate(Uint32::from(0))
