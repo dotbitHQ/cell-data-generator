@@ -4,10 +4,11 @@ use faster_hex::hex_string;
 use std::io::BufRead;
 use std::path::PathBuf;
 use std::{env, fs, io};
-use util::{gen_char_set, gen_price_config, prepend_molecule_like_length};
+use util::{gen_price_config, prepend_molecule_like_length, read_lines};
 
-mod charset;
 mod util;
+
+const WITNESS_SIZE_LIMIT: usize = 32000;
 
 macro_rules! gen_return_from_entity {
     ( $config_type:expr, $entity:expr ) => {{
@@ -22,6 +23,9 @@ macro_rules! gen_return_from_entity {
         //     $config_type,
         //     cell_witness.as_slice().len()
         // );
+        if cell_witness.as_slice().len() > WITNESS_SIZE_LIMIT {
+            panic!("The size of {:?} is more than {} bytes, this needs to modify das-contracts to support.", $config_type, WITNESS_SIZE_LIMIT)
+        }
 
         format!(
             "0x{} 0x{} 0x{} 0x{}",
@@ -46,6 +50,9 @@ macro_rules! gen_return_from_raw {
         //     $config_type,
         //     cell_witness.as_slice().len()
         // );
+        if cell_witness.as_slice().len() > WITNESS_SIZE_LIMIT {
+            panic!("The size of {:?} is more than {} bytes, this needs to modify das-contracts to support.", $config_type, WITNESS_SIZE_LIMIT)
+        }
 
         format!(
             "0x{} 0x{} 0x{} 0x{}",
@@ -75,20 +82,6 @@ fn gen_config_cell_apply() -> String {
         .build();
 
     gen_return_from_entity!(DataType::ConfigCellApply, entity)
-}
-
-fn gen_config_cell_char_set() -> String {
-    let char_sets = CharSetList::new_builder()
-        .push(gen_char_set(CharSetType::Emoji, 1, charset::emoji()))
-        .push(gen_char_set(CharSetType::Digit, 1, charset::digit()))
-        .push(gen_char_set(CharSetType::En, 0, charset::english()))
-        .build();
-
-    let entity = ConfigCellCharSet::new_builder()
-        .char_sets(char_sets)
-        .build();
-
-    gen_return_from_entity!(DataType::ConfigCellCharSet, entity)
 }
 
 fn gen_config_cell_income() -> String {
@@ -185,15 +178,9 @@ fn gen_config_cell_profit_rate() -> String {
 }
 
 fn gen_config_cell_record_key_namespace() -> String {
-    let dir = env::current_dir().unwrap();
-    let mut file_path = PathBuf::new();
-    file_path.push(dir);
-    file_path.push("record_key_namespace.txt");
-
-    // Read record keys from file, then sort them.
-    let file = fs::File::open(file_path).expect("Expect file ./record_key_namespace.txt exist.");
-    let lines = io::BufReader::new(file).lines();
     let mut record_key_namespace = Vec::new();
+    let lines = read_lines("record_key_namespace.txt")
+        .expect("Expect file ./record_key_namespace.txt exist.");
     for line in lines {
         if let Ok(key) = line {
             record_key_namespace.push(key);
@@ -213,15 +200,9 @@ fn gen_config_cell_record_key_namespace() -> String {
 }
 
 fn gen_config_cell_reserved_account() -> String {
-    let dir = env::current_dir().unwrap();
-    let mut file_path = PathBuf::new();
-    file_path.push(dir);
-    file_path.push("reserved_accounts.txt");
-
-    // Read record keys from file, then sort them.
-    let file = fs::File::open(file_path).expect("Expect file ./reserved_accounts.txt exist.");
-    let lines = io::BufReader::new(file).lines();
     let mut account_hashes = Vec::new();
+    let lines =
+        read_lines("reserved_accounts.txt").expect("Expect file ./reserved_accounts.txt exist.");
     for line in lines {
         if let Ok(account) = line {
             let account_hash = blake2b_256(account.as_bytes());
@@ -235,18 +216,67 @@ fn gen_config_cell_reserved_account() -> String {
     gen_return_from_raw!(DataType::ConfigCellPreservedAccount00, raw)
 }
 
+macro_rules! gen_config_cell_char_set {
+    ($fn_name:ident, $is_global:expr, $file_name:expr, $ret_type:expr) => {
+        fn $fn_name() -> String {
+            let mut charsets = Vec::new();
+            let lines = read_lines($file_name)
+                .expect(format!("Expect file ./data/{} exist.", $file_name).as_str());
+            for line in lines {
+                if let Ok(key) = line {
+                    charsets.push(key);
+                }
+            }
+
+            // Join all record keys with 0x00 byte as entity.
+            let mut raw = Vec::new();
+            raw.push($is_global); // global status
+            for key in charsets {
+                raw.extend(key.as_bytes());
+                raw.extend(&[0u8]);
+            }
+            let raw = prepend_molecule_like_length(raw);
+
+            gen_return_from_raw!($ret_type, raw)
+        }
+    };
+}
+
+gen_config_cell_char_set!(
+    gen_config_cell_char_set_emoji,
+    1,
+    "char_set_emoji.txt",
+    DataType::ConfigCellCharSetEmoji
+);
+
+gen_config_cell_char_set!(
+    gen_config_cell_char_set_digit,
+    1,
+    "char_set_digit.txt",
+    DataType::ConfigCellCharSetDigit
+);
+
+gen_config_cell_char_set!(
+    gen_config_cell_char_set_en,
+    1,
+    "char_set_en.txt",
+    DataType::ConfigCellCharSetEn
+);
+
 fn main() {
     println!(
-        "{},{},{},{},{},{},{},{},{},{}",
+        "{},{},{},{},{},{},{},{},{},{},{},{}",
         gen_config_cell_account(),
         gen_config_cell_apply(),
-        gen_config_cell_char_set(),
         gen_config_cell_income(),
         gen_config_cell_main(),
         gen_config_cell_price(),
         gen_config_cell_proposal(),
         gen_config_cell_profit_rate(),
         gen_config_cell_record_key_namespace(),
-        gen_config_cell_reserved_account()
+        gen_config_cell_reserved_account(),
+        gen_config_cell_char_set_emoji(),
+        gen_config_cell_char_set_digit(),
+        gen_config_cell_char_set_en(),
     );
 }
