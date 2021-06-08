@@ -67,9 +67,11 @@ macro_rules! gen_return_from_raw {
 fn gen_config_cell_account() -> String {
     let entity = ConfigCellAccount::new_builder()
         .max_length(Uint32::from(1000))
-        .basic_capacity(Uint64::from(20_000_000_000))
+        .basic_capacity(Uint64::from(20_600_000_000))
         .expiration_grace_period(Uint32::from(2_592_000))
         .record_min_ttl(Uint32::from(300))
+        .record_size_limit(Uint32::from(5000))
+        .operate_throttle(Uint32::from(300))
         .build();
 
     gen_return_from_entity!(DataType::ConfigCellAccount, entity)
@@ -87,7 +89,7 @@ fn gen_config_cell_apply() -> String {
 fn gen_config_cell_income() -> String {
     let entity = ConfigCellIncome::new_builder()
         .basic_capacity(Uint64::from(20_000_000_000))
-        .max_records(Uint32::from(100))
+        .max_records(Uint32::from(50))
         .build();
 
     gen_return_from_entity!(DataType::ConfigCellIncome, entity)
@@ -180,7 +182,7 @@ fn gen_config_cell_profit_rate() -> String {
 fn gen_config_cell_record_key_namespace() -> String {
     let mut record_key_namespace = Vec::new();
     let lines = read_lines("record_key_namespace.txt")
-        .expect("Expect file ./record_key_namespace.txt exist.");
+        .expect("Expect file ./data/record_key_namespace.txt exist.");
     for line in lines {
         if let Ok(key) = line {
             record_key_namespace.push(key);
@@ -201,8 +203,8 @@ fn gen_config_cell_record_key_namespace() -> String {
 
 fn gen_config_cell_reserved_account() -> String {
     let mut account_hashes = Vec::new();
-    let lines =
-        read_lines("reserved_accounts.txt").expect("Expect file ./reserved_accounts.txt exist.");
+    let lines = read_lines("reserved_accounts.txt")
+        .expect("Expect file ./data/reserved_accounts.txt exist.");
     for line in lines {
         if let Ok(account) = line {
             let account_hash = blake2b_256(account.as_bytes());
