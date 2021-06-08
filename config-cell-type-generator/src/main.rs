@@ -137,14 +137,14 @@ fn gen_config_cell_price() -> String {
         .build();
 
     let prices = PriceConfigList::new_builder()
-        .push(gen_price_config(1, 12_000_000, 1_200_000))
-        .push(gen_price_config(2, 11_000_000, 1_100_000))
-        .push(gen_price_config(3, 10_000_000, 1_000_000))
-        .push(gen_price_config(4, 9_000_000, 900_000))
-        .push(gen_price_config(5, 8_000_000, 800_000))
-        .push(gen_price_config(6, 7_000_000, 700_000))
-        .push(gen_price_config(7, 6_000_000, 600_000))
-        .push(gen_price_config(8, 5_000_000, 500_000))
+        .push(gen_price_config(1, 12_000_000, 12_000_000))
+        .push(gen_price_config(2, 11_000_000, 11_000_000))
+        .push(gen_price_config(3, 10_000_000, 10_000_000))
+        .push(gen_price_config(4, 9_000_000, 9_000_000))
+        .push(gen_price_config(5, 8_000_000, 8_000_000))
+        .push(gen_price_config(6, 7_000_000, 7_000_000))
+        .push(gen_price_config(7, 6_000_000, 6_000_000))
+        .push(gen_price_config(8, 5_000_000, 5_000_000))
         .build();
 
     let entity = ConfigCellPrice::new_builder()
