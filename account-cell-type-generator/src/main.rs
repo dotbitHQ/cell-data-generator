@@ -4,8 +4,11 @@ use faster_hex::hex_string;
 use std::convert::TryFrom;
 
 fn main() {
-    let id: Vec<u8> = vec![0, 0, 0, 0, 0, 0, 0, 0, 0, 0];
-    let next: Vec<u8> = vec![255, 255, 255, 255, 255, 255, 255, 255, 255, 255];
+    let id: Vec<u8> = vec![0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0];
+    let next: Vec<u8> = vec![
+        255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255,
+        255, 255,
+    ];
     let account = AccountChars::default();
     let expired_at = u64::MAX.to_le_bytes();
 
@@ -13,6 +16,7 @@ fn main() {
         .id(AccountId::try_from(id.clone()).unwrap())
         .account(account)
         .registered_at(Uint64::from(0))
+        .updated_at(Uint64::from(0))
         .status(Uint8::from(0))
         .build();
 

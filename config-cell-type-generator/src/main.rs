@@ -8,7 +8,7 @@ use util::{gen_price_config, prepend_molecule_like_length, read_lines};
 
 mod util;
 
-const WITNESS_SIZE_LIMIT: usize = 32000;
+const WITNESS_SIZE_LIMIT: usize = 16000;
 
 macro_rules! gen_return_from_entity {
     ( $config_type:expr, $entity:expr ) => {{
