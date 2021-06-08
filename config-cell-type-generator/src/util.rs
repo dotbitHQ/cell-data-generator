@@ -1,4 +1,4 @@
-use das_types::{constants::CharSetType, packed::*, prelude::*};
+use das_types::{packed::*, prelude::*};
 use std::fs::File;
 use std::io::{BufRead, BufReader, Lines, Result};
 use std::{env, io, path::PathBuf};

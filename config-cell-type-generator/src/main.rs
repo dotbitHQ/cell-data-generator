@@ -201,10 +201,10 @@ fn gen_config_cell_record_key_namespace() -> String {
     gen_return_from_raw!(DataType::ConfigCellRecordKeyNamespace, raw)
 }
 
-fn gen_config_cell_reserved_account() -> String {
+fn gen_config_cell_preserved_account() -> String {
     let mut account_hashes = Vec::new();
-    let lines = read_lines("reserved_accounts.txt")
-        .expect("Expect file ./data/reserved_accounts.txt exist.");
+    let lines = read_lines("preserved_accounts.txt")
+        .expect("Expect file ./data/preserved_accounts.txt exist.");
     for line in lines {
         if let Ok(account) = line {
             let account_hash = blake2b_256(account.as_bytes());
@@ -276,7 +276,7 @@ fn main() {
         gen_config_cell_proposal(),
         gen_config_cell_profit_rate(),
         gen_config_cell_record_key_namespace(),
-        gen_config_cell_reserved_account(),
+        gen_config_cell_preserved_account(),
         gen_config_cell_char_set_emoji(),
         gen_config_cell_char_set_digit(),
         gen_config_cell_char_set_en(),
