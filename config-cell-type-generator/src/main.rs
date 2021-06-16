@@ -66,12 +66,17 @@ macro_rules! gen_return_from_raw {
 
 fn gen_config_cell_account() -> String {
     let entity = ConfigCellAccount::new_builder()
-        .max_length(Uint32::from(1000))
+        .max_length(Uint32::from(20))
         .basic_capacity(Uint64::from(20_600_000_000))
         .expiration_grace_period(Uint32::from(2_592_000))
         .record_min_ttl(Uint32::from(300))
         .record_size_limit(Uint32::from(5000))
-        .operate_throttle(Uint32::from(300))
+        .transfer_account_fee(Uint32::from(10_000))
+        .edit_manager_fee(Uint32::from(10_000))
+        .edit_records_fee(Uint32::from(10_000))
+        .transfer_account_throttle(Uint32::from(86400))
+        .edit_manager_throttle(Uint32::from(3600))
+        .edit_records_fee(Uint32::from(300))
         .build();
 
     gen_return_from_entity!(DataType::ConfigCellAccount, entity)
@@ -90,6 +95,7 @@ fn gen_config_cell_income() -> String {
     let entity = ConfigCellIncome::new_builder()
         .basic_capacity(Uint64::from(20_000_000_000))
         .max_records(Uint32::from(50))
+        .min_transfer_capacity(Uint32::from(100))
         .build();
 
     gen_return_from_entity!(DataType::ConfigCellIncome, entity)
