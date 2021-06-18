@@ -1,9 +1,6 @@
 use ckb_hash::blake2b_256;
 use das_types::{constants::*, packed::*, prelude::*, util as das_util};
 use faster_hex::hex_string;
-use std::io::BufRead;
-use std::path::PathBuf;
-use std::{env, fs, io};
 use util::{gen_price_config, prepend_molecule_like_length, read_lines};
 
 mod util;
@@ -67,16 +64,18 @@ macro_rules! gen_return_from_raw {
 fn gen_config_cell_account() -> String {
     let entity = ConfigCellAccount::new_builder()
         .max_length(Uint32::from(20))
+        // The basic_capacity contains 1 CKB for kinds of fees
         .basic_capacity(Uint64::from(20_600_000_000))
+        .prepared_fee_capacity(Uint64::from(100_000_000))
         .expiration_grace_period(Uint32::from(2_592_000))
         .record_min_ttl(Uint32::from(300))
         .record_size_limit(Uint32::from(5000))
-        .transfer_account_fee(Uint32::from(10_000))
-        .edit_manager_fee(Uint32::from(10_000))
-        .edit_records_fee(Uint32::from(10_000))
+        .transfer_account_fee(Uint64::from(10_000))
+        .edit_manager_fee(Uint64::from(10_000))
+        .edit_records_fee(Uint64::from(10_000))
         .transfer_account_throttle(Uint32::from(86400))
         .edit_manager_throttle(Uint32::from(3600))
-        .edit_records_fee(Uint32::from(300))
+        .edit_records_throttle(Uint32::from(600))
         .build();
 
     gen_return_from_entity!(DataType::ConfigCellAccount, entity)
@@ -95,7 +94,7 @@ fn gen_config_cell_income() -> String {
     let entity = ConfigCellIncome::new_builder()
         .basic_capacity(Uint64::from(20_000_000_000))
         .max_records(Uint32::from(50))
-        .min_transfer_capacity(Uint32::from(100))
+        .min_transfer_capacity(Uint64::from(10_000_000_000))
         .build();
 
     gen_return_from_entity!(DataType::ConfigCellIncome, entity)
