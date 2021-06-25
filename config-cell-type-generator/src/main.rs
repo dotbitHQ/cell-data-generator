@@ -105,8 +105,8 @@ fn gen_config_cell_main() -> String {
     // it will be use for search and replace in deploy scripts.
     let type_id_table = TypeIdTable::new_builder()
         .account_cell(Hash::from([
-            235, 35, 107, 4, 114, 196, 196, 181, 50, 168, 27, 83, 164, 50, 82, 10, 219, 109, 129,
-            111, 193, 184, 71, 230, 173, 124, 246, 54, 106, 43, 106, 149,
+            17, 6, 217, 234, 204, 222, 9, 149, 167, 224, 126, 128, 221, 12, 231, 80, 159, 33, 117,
+            37, 56, 223, 221, 30, 226, 82, 109, 36, 87, 72, 70, 177,
         ]))
         .apply_register_cell(Hash::from([
             15, 191, 248, 113, 221, 5, 174, 225, 253, 162, 190, 56, 120, 106, 210, 29, 82, 162,
@@ -128,9 +128,33 @@ fn gen_config_cell_main() -> String {
         ]))
         .build();
 
+    let das_lock_code_hash_table = DasLockCodeHashTable::new_builder()
+        .ckb_signall(Hash::from([
+            0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+            0, 0, 0,
+        ]))
+        .ckb_multisign(Hash::from([
+            0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+            0, 0, 0,
+        ]))
+        .ckb_anyone_can_pay(Hash::from([
+            0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+            0, 0, 0,
+        ]))
+        .eth(Hash::from([
+            0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+            0, 0, 0,
+        ]))
+        .tron(Hash::from([
+            0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+            0, 0, 0,
+        ]))
+        .build();
+
     let entity = ConfigCellMain::new_builder()
         .status(Uint8::from(1))
         .type_id_table(type_id_table)
+        .das_lock_code_hash_table(das_lock_code_hash_table)
         .build();
 
     gen_return_from_entity!(DataType::ConfigCellMain, entity)
@@ -286,4 +310,6 @@ fn main() {
         gen_config_cell_char_set_digit(),
         gen_config_cell_char_set_en(),
     );
+
+    // println!("{}", gen_config_cell_main());
 }
