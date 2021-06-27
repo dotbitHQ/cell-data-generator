@@ -1,5 +1,5 @@
 use ckb_hash::blake2b_256;
-use das_types::{constants::*, packed::*, prelude::*, util as das_util};
+use das_types::{constants::*, out_point, packed::*, prelude::*, util as das_util};
 use faster_hex::hex_string;
 use util::{gen_price_config, prepend_molecule_like_length, read_lines};
 
@@ -128,33 +128,48 @@ fn gen_config_cell_main() -> String {
         ]))
         .build();
 
-    let das_lock_code_hash_table = DasLockCodeHashTable::new_builder()
-        .ckb_signall(Hash::from([
-            0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
-            0, 0, 0,
-        ]))
-        .ckb_multisign(Hash::from([
-            0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
-            0, 0, 0,
-        ]))
-        .ckb_anyone_can_pay(Hash::from([
-            0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
-            0, 0, 0,
-        ]))
-        .eth(Hash::from([
-            0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
-            0, 0, 0,
-        ]))
-        .tron(Hash::from([
-            0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
-            0, 0, 0,
-        ]))
+    let das_lock_out_point_table = DasLockOutPointTable::new_builder()
+        .ckb_signall(out_point!(
+            [
+                0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+                0, 0, 0, 0,
+            ],
+            0
+        ))
+        .ckb_multisign(out_point!(
+            [
+                0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+                0, 0, 0, 0,
+            ],
+            0
+        ))
+        .ckb_anyone_can_pay(out_point!(
+            [
+                0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+                0, 0, 0, 0,
+            ],
+            0
+        ))
+        .eth(out_point!(
+            [
+                0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+                0, 0, 0, 0,
+            ],
+            0
+        ))
+        .tron(out_point!(
+            [
+                0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+                0, 0, 0, 0,
+            ],
+            0
+        ))
         .build();
 
     let entity = ConfigCellMain::new_builder()
         .status(Uint8::from(1))
         .type_id_table(type_id_table)
-        .das_lock_code_hash_table(das_lock_code_hash_table)
+        .das_lock_out_point_table(das_lock_out_point_table)
         .build();
 
     gen_return_from_entity!(DataType::ConfigCellMain, entity)
