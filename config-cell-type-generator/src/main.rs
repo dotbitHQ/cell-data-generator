@@ -304,14 +304,28 @@ gen_config_cell_char_set!(
 
 gen_config_cell_char_set!(
     gen_config_cell_char_set_en,
-    1,
+    0,
     "char_set_en.txt",
     DataType::ConfigCellCharSetEn
 );
 
+gen_config_cell_char_set!(
+    gen_config_cell_char_set_zh_hans,
+    0,
+    "char_set_zh_hans.txt",
+    DataType::ConfigCellCharSetZhHans
+);
+
+gen_config_cell_char_set!(
+    gen_config_cell_char_set_zh_hant,
+    0,
+    "char_set_zh_hant.txt",
+    DataType::ConfigCellCharSetZhHant
+);
+
 fn main() {
     println!(
-        "{},{},{},{},{},{},{},{},{},{},{},{}",
+        "{},{},{},{},{},{},{},{},{},{},{},{},{},{}",
         gen_config_cell_account(),
         gen_config_cell_apply(),
         gen_config_cell_income(),
@@ -324,6 +338,8 @@ fn main() {
         gen_config_cell_char_set_emoji(),
         gen_config_cell_char_set_digit(),
         gen_config_cell_char_set_en(),
+        gen_config_cell_char_set_zh_hans(),
+        gen_config_cell_char_set_zh_hant(),
     );
 
     // println!("{}", gen_config_cell_main());
