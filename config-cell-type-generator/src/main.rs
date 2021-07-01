@@ -181,13 +181,13 @@ fn gen_config_cell_price() -> String {
         .build();
 
     let prices = PriceConfigList::new_builder()
-        .push(gen_price_config(1, 12_000_000, 12_000_000))
-        .push(gen_price_config(2, 11_000_000, 11_000_000))
-        .push(gen_price_config(3, 10_000_000, 10_000_000))
-        .push(gen_price_config(4, 9_000_000, 9_000_000))
-        .push(gen_price_config(5, 8_000_000, 8_000_000))
-        .push(gen_price_config(6, 7_000_000, 7_000_000))
-        .push(gen_price_config(7, 6_000_000, 6_000_000))
+        .push(gen_price_config(1, u64::MAX, u64::MAX))
+        .push(gen_price_config(2, u64::MAX, u64::MAX))
+        .push(gen_price_config(3, 700_000_000, 700_000_000))
+        .push(gen_price_config(4, 170_000_000, 170_000_000))
+        .push(gen_price_config(5, 5_000_000, 5_000_000))
+        .push(gen_price_config(6, 5_000_000, 5_000_000))
+        .push(gen_price_config(7, 5_000_000, 5_000_000))
         .push(gen_price_config(8, 5_000_000, 5_000_000))
         .build();
 
