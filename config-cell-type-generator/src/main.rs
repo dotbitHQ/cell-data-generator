@@ -5,7 +5,9 @@ use util::{gen_price_config, prepend_molecule_like_length, read_lines};
 
 mod util;
 
-const WITNESS_SIZE_LIMIT: usize = 16000;
+const WITNESS_SIZE_LIMIT: usize = 200_000;
+const ACCOUNT_ID_LENGTH: usize = 20;
+const PRESERVED_ACCOUNT_LIMIT_PER_CELL: usize = 10_000;
 
 macro_rules! gen_return_from_entity {
     ( $config_type:expr, $entity:expr ) => {{
@@ -131,8 +133,8 @@ fn gen_config_cell_main() -> String {
     let das_lock_out_point_table = DasLockOutPointTable::new_builder()
         .ckb_signall(out_point!(
             [
-                0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
-                0, 0, 0, 0,
+                32, 155, 53, 32, 141, 167, 210, 13, 136, 47, 8, 113, 243, 151, 156, 104, 197, 57,
+                129, 188, 196, 202, 167, 18, 116, 192, 53, 68, 144, 116, 208, 130
             ],
             0
         ))
@@ -152,15 +154,15 @@ fn gen_config_cell_main() -> String {
         ))
         .eth(out_point!(
             [
-                0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
-                0, 0, 0, 0,
+                176, 53, 194, 0, 191, 117, 149, 55, 211, 121, 110, 223, 73, 181, 214, 168, 236, 95,
+                93, 120, 50, 103, 19, 249, 135, 243, 26, 210, 77, 11, 1, 113
             ],
             0
         ))
         .tron(out_point!(
             [
-                0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
-                0, 0, 0, 0,
+                125, 196, 174, 143, 229, 151, 4, 95, 189, 127, 231, 143, 43, 210, 100, 53, 100, 74,
+                105, 183, 85, 222, 56, 36, 168, 86, 246, 129, 186, 203, 115, 43
             ],
             0
         ))
@@ -217,7 +219,7 @@ fn gen_config_cell_profit_rate() -> String {
         .inviter(Uint32::from(800))
         .proposal_create(Uint32::from(400))
         .proposal_confirm(Uint32::from(0))
-        .income_consolidate(Uint32::from(0))
+        .income_consolidate(Uint32::from(500))
         .build();
 
     gen_return_from_entity!(DataType::ConfigCellProfitRate, entity)
@@ -246,86 +248,86 @@ fn gen_config_cell_record_key_namespace() -> String {
 }
 
 fn gen_config_cell_preserved_account() -> String {
-    let mut account_hashes = Vec::new();
+    // Load and group preserved accounts
+    let mut preserved_accounts_groups: Vec<Vec<Vec<u8>>> = vec![Vec::new(); 10];
     let lines = read_lines("preserved_accounts.txt")
         .expect("Expect file ./data/preserved_accounts.txt exist.");
     for line in lines {
         if let Ok(account) = line {
-            let account_hash = blake2b_256(account.as_bytes());
-            account_hashes.push(account_hash.get(..10).unwrap().to_vec());
+            let account_hash = blake2b_256(account.as_bytes())
+                .get(..ACCOUNT_ID_LENGTH)
+                .unwrap()
+                .to_vec();
+            let index = (account_hash[0] % PRESERVED_ACCOUNT_CELL_COUNT) as usize;
+
+            preserved_accounts_groups[index].push(account_hash);
         }
     }
-    account_hashes.sort();
-    let mut raw = account_hashes.into_iter().flatten().collect::<Vec<u8>>();
-    raw = prepend_molecule_like_length(raw);
 
-    gen_return_from_raw!(DataType::ConfigCellPreservedAccount00, raw)
-}
-
-macro_rules! gen_config_cell_char_set {
-    ($fn_name:ident, $is_global:expr, $file_name:expr, $ret_type:expr) => {
-        fn $fn_name() -> String {
-            let mut charsets = Vec::new();
-            let lines = read_lines($file_name)
-                .expect(format!("Expect file ./data/{} exist.", $file_name).as_str());
-            for line in lines {
-                if let Ok(key) = line {
-                    charsets.push(key);
-                }
-            }
-
-            // Join all record keys with 0x00 byte as entity.
-            let mut raw = Vec::new();
-            raw.push($is_global); // global status
-            for key in charsets {
-                raw.extend(key.as_bytes());
-                raw.extend(&[0u8]);
-            }
-            let raw = prepend_molecule_like_length(raw);
-
-            gen_return_from_raw!($ret_type, raw)
+    let mut output = String::new();
+    let mut comma = "";
+    for (_i, mut group) in preserved_accounts_groups.into_iter().enumerate() {
+        // println!("Preserved account group[{}] count: {}", _i, group.len());
+        if group.len() > PRESERVED_ACCOUNT_LIMIT_PER_CELL {
+            panic!("Some ConfigCell of preserved accounts has broke the predict limitation.")
         }
-    };
+
+        group.sort();
+        let mut raw = group.into_iter().flatten().collect::<Vec<u8>>();
+        raw = prepend_molecule_like_length(raw);
+
+        let data_type = das_util::preserved_accounts_group_to_data_type(_i);
+        output += comma;
+        output += gen_return_from_raw!(data_type, raw).as_str();
+        comma = ",";
+    }
+
+    output
 }
 
-gen_config_cell_char_set!(
-    gen_config_cell_char_set_emoji,
-    1,
-    "char_set_emoji.txt",
-    DataType::ConfigCellCharSetEmoji
-);
+fn gen_config_cell_char_set() -> String {
+    let settings: Vec<(DataType, &str, u8)> = vec![
+        (DataType::ConfigCellCharSetEmoji, "char_set_emoji.txt", 1),
+        (DataType::ConfigCellCharSetDigit, "char_set_digit.txt", 1),
+        (DataType::ConfigCellCharSetEn, "char_set_en.txt", 0),
+        (DataType::ConfigCellCharSetZhHans, "char_set_zh_hans.txt", 0),
+        (DataType::ConfigCellCharSetZhHant, "char_set_zh_hant.txt", 0),
+    ];
 
-gen_config_cell_char_set!(
-    gen_config_cell_char_set_digit,
-    1,
-    "char_set_digit.txt",
-    DataType::ConfigCellCharSetDigit
-);
+    let mut output = String::new();
+    let mut comma = "";
+    for (_i, setting) in settings.iter().enumerate() {
+        let mut charsets = Vec::new();
+        let lines = read_lines(setting.1)
+            .expect(format!("Expect file ./data/{} exist.", setting.1).as_str());
+        for line in lines {
+            if let Ok(char) = line {
+                charsets.push(char);
+            }
+        }
 
-gen_config_cell_char_set!(
-    gen_config_cell_char_set_en,
-    0,
-    "char_set_en.txt",
-    DataType::ConfigCellCharSetEn
-);
+        // println!("Character count of {:?}: {}", setting.0, charsets.len());
 
-gen_config_cell_char_set!(
-    gen_config_cell_char_set_zh_hans,
-    0,
-    "char_set_zh_hans.txt",
-    DataType::ConfigCellCharSetZhHans
-);
+        // Join all record keys with 0x00 byte as entity.
+        let mut raw: Vec<u8> = Vec::new();
+        raw.push(setting.2); // global status
+        for key in charsets {
+            raw.extend(key.as_bytes());
+            raw.extend(&[0u8]);
+        }
+        let raw = prepend_molecule_like_length(raw);
 
-gen_config_cell_char_set!(
-    gen_config_cell_char_set_zh_hant,
-    0,
-    "char_set_zh_hant.txt",
-    DataType::ConfigCellCharSetZhHant
-);
+        output += comma;
+        output += gen_return_from_raw!(setting.0, raw).as_str();
+        comma = ",";
+    }
+
+    output
+}
 
 fn main() {
-    println!(
-        "{},{},{},{},{},{},{},{},{},{},{},{},{},{}",
+    print!(
+        "{},{},{},{},{},{},{},{}",
         gen_config_cell_account(),
         gen_config_cell_apply(),
         gen_config_cell_income(),
@@ -334,13 +336,9 @@ fn main() {
         gen_config_cell_proposal(),
         gen_config_cell_profit_rate(),
         gen_config_cell_record_key_namespace(),
-        gen_config_cell_preserved_account(),
-        gen_config_cell_char_set_emoji(),
-        gen_config_cell_char_set_digit(),
-        gen_config_cell_char_set_en(),
-        gen_config_cell_char_set_zh_hans(),
-        gen_config_cell_char_set_zh_hant(),
     );
-
-    // println!("{}", gen_config_cell_main());
+    print!(",");
+    print!("{}", gen_config_cell_preserved_account());
+    print!(",");
+    print!("{}", gen_config_cell_char_set());
 }
