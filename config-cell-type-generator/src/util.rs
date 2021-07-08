@@ -1,3 +1,4 @@
+use super::constants::*;
 use das_types::{packed::*, prelude::*};
 use std::fs::File;
 use std::io::{BufRead, BufReader, Lines, Result};
@@ -24,6 +25,10 @@ pub fn gen_price_config(length: u8, new_price: u64, renew_price: u64) -> PriceCo
 }
 
 pub fn prepend_molecule_like_length(raw: Vec<u8>) -> Vec<u8> {
+    if raw.len() + 4 > WITNESS_SIZE_LIMIT {
+        panic!("\nWitness reached the size limit which is 32KB.")
+    }
+
     // Prepend length of bytes to raw data, include the bytes of length itself.
     let mut entity = (raw.len() as u32 + 4).to_le_bytes().to_vec();
     entity.extend(raw);

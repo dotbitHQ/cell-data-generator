@@ -3,11 +3,10 @@ use das_types::{constants::*, out_point, packed::*, prelude::*, util as das_util
 use faster_hex::hex_string;
 use util::{gen_price_config, prepend_molecule_like_length, read_lines};
 
+mod constants;
 mod util;
 
-const WITNESS_SIZE_LIMIT: usize = 200_000;
-const ACCOUNT_ID_LENGTH: usize = 20;
-const PRESERVED_ACCOUNT_LIMIT_PER_CELL: usize = 10_000;
+use constants::*;
 
 macro_rules! gen_return_from_entity {
     ( $config_type:expr, $entity:expr ) => {{
@@ -133,8 +132,8 @@ fn gen_config_cell_main() -> String {
     let das_lock_out_point_table = DasLockOutPointTable::new_builder()
         .ckb_signall(out_point!(
             [
-                32, 155, 53, 32, 141, 167, 210, 13, 136, 47, 8, 113, 243, 151, 156, 104, 197, 57,
-                129, 188, 196, 202, 167, 18, 116, 192, 53, 68, 144, 116, 208, 130
+                0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+                0, 0, 0, 0,
             ],
             0
         ))
@@ -154,15 +153,15 @@ fn gen_config_cell_main() -> String {
         ))
         .eth(out_point!(
             [
-                176, 53, 194, 0, 191, 117, 149, 55, 211, 121, 110, 223, 73, 181, 214, 168, 236, 95,
-                93, 120, 50, 103, 19, 249, 135, 243, 26, 210, 77, 11, 1, 113
+                0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+                0, 0, 0, 0,
             ],
             0
         ))
         .tron(out_point!(
             [
-                125, 196, 174, 143, 229, 151, 4, 95, 189, 127, 231, 143, 43, 210, 100, 53, 100, 74,
-                105, 183, 85, 222, 56, 36, 168, 86, 246, 129, 186, 203, 115, 43
+                0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+                0, 0, 0, 0,
             ],
             0
         ))
@@ -249,7 +248,8 @@ fn gen_config_cell_record_key_namespace() -> String {
 
 fn gen_config_cell_preserved_account() -> String {
     // Load and group preserved accounts
-    let mut preserved_accounts_groups: Vec<Vec<Vec<u8>>> = vec![Vec::new(); 10];
+    let mut preserved_accounts_groups: Vec<Vec<Vec<u8>>> =
+        vec![Vec::new(); PRESERVED_ACCOUNT_CELL_COUNT as usize];
     let lines = read_lines("preserved_accounts.txt")
         .expect("Expect file ./data/preserved_accounts.txt exist.");
     for line in lines {
