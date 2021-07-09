@@ -391,21 +391,16 @@ fn gen_config_cell_release() -> String {
 }
 
 fn main() {
-    print!(
-        "{},{},{},{},{},{},{},{},{}",
-        gen_config_cell_account(),
-        gen_config_cell_apply(),
-        gen_config_cell_income(),
-        gen_config_cell_main(),
-        gen_config_cell_price(),
-        gen_config_cell_proposal(),
-        gen_config_cell_profit_rate(),
-        gen_config_cell_record_key_namespace(),
-        gen_config_cell_release(),
-    );
-    print!(",");
-    print!("{}", gen_config_cell_preserved_account());
-    print!(",");
+    print!("{},", gen_config_cell_account());
+    print!("{},", gen_config_cell_apply());
+    print!("{},", gen_config_cell_income());
+    print!("{},", gen_config_cell_main());
+    print!("{},", gen_config_cell_price());
+    print!("{},", gen_config_cell_proposal());
+    print!("{},", gen_config_cell_profit_rate());
+    print!("{},", gen_config_cell_record_key_namespace());
+    print!("{},", gen_config_cell_release());
+    print!("{},", gen_config_cell_preserved_account());
     print!("{}", gen_config_cell_char_set());
     print!("\n");
 }

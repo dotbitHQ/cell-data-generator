@@ -1,5 +1,5 @@
 use super::constants::*;
-use chrono::{DateTime, NaiveDateTime, TimeZone, Utc};
+use chrono::{DateTime, NaiveDateTime, Utc};
 use das_types::{packed::*, prelude::*};
 use std::fs::File;
 use std::io::{BufRead, BufReader, Lines, Result};
