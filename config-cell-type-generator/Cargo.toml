@@ -4,7 +4,13 @@ version = "0.1.1"
 authors = ["Link <xieaolin@gmail.com>"]
 edition = "2018"
 
-# See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
+[features]
+dev = []
+local = []
+testnet2 = []
+testnet3 = []
+testnet = ["testnet2", "testnet3"]
+mainnet = []
 
 [dependencies]
 blake2b-ref = "0.3"

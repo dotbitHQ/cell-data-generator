@@ -181,11 +181,24 @@ fn gen_config_cell_price() -> String {
         .invited_discount(Uint32::from(500))
         .build();
 
+    #[cfg(feature = "mainnet")]
     let prices = PriceConfigList::new_builder()
         .push(gen_price_config(1, u64::MAX, u64::MAX))
         .push(gen_price_config(2, u64::MAX, u64::MAX))
         .push(gen_price_config(3, 700_000_000, 700_000_000))
         .push(gen_price_config(4, 170_000_000, 170_000_000))
+        .push(gen_price_config(5, 5_000_000, 5_000_000))
+        .push(gen_price_config(6, 5_000_000, 5_000_000))
+        .push(gen_price_config(7, 5_000_000, 5_000_000))
+        .push(gen_price_config(8, 5_000_000, 5_000_000))
+        .build();
+
+    #[cfg(not(feature = "mainnet"))]
+    let prices = PriceConfigList::new_builder()
+        .push(gen_price_config(1, u64::MAX, u64::MAX))
+        .push(gen_price_config(2, 30_000_000, 30_000_000))
+        .push(gen_price_config(3, 20_000_000, 20_000_000))
+        .push(gen_price_config(4, 10_000_000, 10_000_000))
         .push(gen_price_config(5, 5_000_000, 5_000_000))
         .push(gen_price_config(6, 5_000_000, 5_000_000))
         .push(gen_price_config(7, 5_000_000, 5_000_000))
@@ -326,6 +339,7 @@ fn gen_config_cell_char_set() -> String {
 }
 
 fn gen_config_cell_release() -> String {
+    #[cfg(feature = "mainnet")]
     let data = vec![
         (
             5,
@@ -336,6 +350,20 @@ fn gen_config_cell_release() -> String {
             6,
             gen_timestamp("2021-08-15 00:00:00"),
             gen_timestamp("2021-09-15 00:00:00"),
+        ),
+        (
+            0,
+            gen_timestamp("2021-07-15 00:00:00"),
+            gen_timestamp("2021-08-15 00:00:00"),
+        ),
+    ];
+
+    #[cfg(not(feature = "mainnet"))]
+    let data = vec![
+        (
+            2,
+            gen_timestamp("2021-09-15 00:00:00"),
+            gen_timestamp("2021-10-15 00:00:00"),
         ),
         (
             0,
@@ -372,8 +400,8 @@ fn main() {
         gen_config_cell_price(),
         gen_config_cell_proposal(),
         gen_config_cell_profit_rate(),
-        gen_config_cell_release(),
         gen_config_cell_record_key_namespace(),
+        gen_config_cell_release(),
     );
     print!(",");
     print!("{}", gen_config_cell_preserved_account());
