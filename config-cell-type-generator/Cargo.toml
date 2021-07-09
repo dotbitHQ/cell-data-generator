@@ -1,6 +1,6 @@
 [package]
 name = "config-cell-type-generator"
-version = "0.1.0"
+version = "0.1.1"
 authors = ["Link <xieaolin@gmail.com>"]
 edition = "2018"
 

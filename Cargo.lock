@@ -83,7 +83,7 @@ dependencies = [
 
 [[package]]
 name = "config-cell-type-generator"
-version = "0.1.0"
+version = "0.1.1"
 dependencies = [
  "blake2b-ref 0.3.0",
  "ckb-hash",
@@ -93,7 +93,7 @@ dependencies = [
 
 [[package]]
 name = "das-types"
-version = "0.1.0"
+version = "0.1.1"
 dependencies = [
  "ckb-std",
  "molecule",
