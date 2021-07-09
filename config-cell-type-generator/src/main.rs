@@ -1,7 +1,7 @@
 use ckb_hash::blake2b_256;
 use das_types::{constants::*, out_point, packed::*, prelude::*, util as das_util};
 use faster_hex::hex_string;
-use util::{gen_price_config, prepend_molecule_like_length, read_lines};
+use util::{gen_price_config, gen_timestamp, prepend_molecule_like_length, read_lines};
 
 mod constants;
 mod util;
@@ -325,9 +325,46 @@ fn gen_config_cell_char_set() -> String {
     output
 }
 
+fn gen_config_cell_release() -> String {
+    let data = vec![
+        (
+            5,
+            gen_timestamp("2021-09-15 00:00:00"),
+            gen_timestamp("2021-10-15 00:00:00"),
+        ),
+        (
+            6,
+            gen_timestamp("2021-08-15 00:00:00"),
+            gen_timestamp("2021-09-15 00:00:00"),
+        ),
+        (
+            0,
+            gen_timestamp("2021-07-15 00:00:00"),
+            gen_timestamp("2021-08-15 00:00:00"),
+        ),
+    ];
+
+    let mut release_rules = ReleaseRules::new_builder();
+    for item in data.into_iter() {
+        release_rules = release_rules.push(
+            ReleaseRule::new_builder()
+                .length(Uint32::from(item.0))
+                .release_start(Timestamp::from(item.1))
+                .release_end(Timestamp::from(item.2))
+                .build(),
+        );
+    }
+
+    let entity = ConfigCellRelease::new_builder()
+        .release_rules(release_rules.build())
+        .build();
+
+    gen_return_from_entity!(DataType::ConfigCellRelease, entity)
+}
+
 fn main() {
     print!(
-        "{},{},{},{},{},{},{},{}",
+        "{},{},{},{},{},{},{},{},{}",
         gen_config_cell_account(),
         gen_config_cell_apply(),
         gen_config_cell_income(),
@@ -335,10 +372,12 @@ fn main() {
         gen_config_cell_price(),
         gen_config_cell_proposal(),
         gen_config_cell_profit_rate(),
+        gen_config_cell_release(),
         gen_config_cell_record_key_namespace(),
     );
     print!(",");
     print!("{}", gen_config_cell_preserved_account());
     print!(",");
     print!("{}", gen_config_cell_char_set());
+    print!("\n");
 }

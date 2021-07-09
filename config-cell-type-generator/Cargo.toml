@@ -11,3 +11,4 @@ blake2b-ref = "0.3"
 ckb-hash = "0.40.0"
 das-types = { path = "../../das-types/rust", features = ["std"] }
 faster-hex = "0.5.0"
+chrono = { version = "0.4" }
