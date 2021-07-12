@@ -362,13 +362,13 @@ fn gen_config_cell_release() -> String {
     let data = vec![
         (
             2,
-            gen_timestamp("2021-09-15 00:00:00"),
-            gen_timestamp("2021-10-15 00:00:00"),
+            gen_timestamp("2021-07-01 00:00:00"),
+            gen_timestamp("2021-07-31 00:00:00"),
         ),
         (
             0,
-            gen_timestamp("2021-07-15 00:00:00"),
-            gen_timestamp("2021-08-15 00:00:00"),
+            gen_timestamp("2021-06-1 00:00:00"),
+            gen_timestamp("2021-06-1 00:00:00"),
         ),
     ];
 
