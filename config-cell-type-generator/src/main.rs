@@ -64,7 +64,7 @@ macro_rules! gen_return_from_raw {
 
 fn gen_config_cell_account() -> String {
     let entity = ConfigCellAccount::new_builder()
-        .max_length(Uint32::from(20))
+        .max_length(Uint32::from(61))
         // The basic_capacity contains 1 CKB for kinds of fees
         .basic_capacity(Uint64::from(20_600_000_000))
         .prepared_fee_capacity(Uint64::from(100_000_000))
@@ -74,9 +74,9 @@ fn gen_config_cell_account() -> String {
         .transfer_account_fee(Uint64::from(10_000))
         .edit_manager_fee(Uint64::from(10_000))
         .edit_records_fee(Uint64::from(10_000))
-        .transfer_account_throttle(Uint32::from(86400))
-        .edit_manager_throttle(Uint32::from(3600))
-        .edit_records_throttle(Uint32::from(600))
+        .transfer_account_throttle(Uint32::from(300))
+        .edit_manager_throttle(Uint32::from(300))
+        .edit_records_throttle(Uint32::from(300))
         .build();
 
     gen_return_from_entity!(DataType::ConfigCellAccount, entity)
@@ -95,7 +95,7 @@ fn gen_config_cell_income() -> String {
     let entity = ConfigCellIncome::new_builder()
         .basic_capacity(Uint64::from(20_000_000_000))
         .max_records(Uint32::from(50))
-        .min_transfer_capacity(Uint64::from(10_000_000_000))
+        .min_transfer_capacity(Uint64::from(7_000_000_000))
         .build();
 
     gen_return_from_entity!(DataType::ConfigCellIncome, entity)
@@ -183,10 +183,10 @@ fn gen_config_cell_price() -> String {
 
     #[cfg(feature = "mainnet")]
     let prices = PriceConfigList::new_builder()
-        .push(gen_price_config(1, u64::MAX, u64::MAX))
-        .push(gen_price_config(2, u64::MAX, u64::MAX))
-        .push(gen_price_config(3, 700_000_000, 700_000_000))
-        .push(gen_price_config(4, 170_000_000, 170_000_000))
+        .push(gen_price_config(1, 1024_000_000, 1024_000_000))
+        .push(gen_price_config(2, 1024_000_000, 1024_000_000))
+        .push(gen_price_config(3, 1024_000_000, 1024_000_000))
+        .push(gen_price_config(4, 1024_000_000, 1024_000_000))
         .push(gen_price_config(5, 5_000_000, 5_000_000))
         .push(gen_price_config(6, 5_000_000, 5_000_000))
         .push(gen_price_config(7, 5_000_000, 5_000_000))
@@ -229,7 +229,7 @@ fn gen_config_cell_profit_rate() -> String {
     let entity = ConfigCellProfitRate::new_builder()
         .channel(Uint32::from(800))
         .inviter(Uint32::from(800))
-        .proposal_create(Uint32::from(400))
+        .proposal_create(Uint32::from(200))
         .proposal_confirm(Uint32::from(0))
         .income_consolidate(Uint32::from(500))
         .build();
@@ -303,8 +303,8 @@ fn gen_config_cell_char_set() -> String {
         (DataType::ConfigCellCharSetEmoji, "char_set_emoji.txt", 1),
         (DataType::ConfigCellCharSetDigit, "char_set_digit.txt", 1),
         (DataType::ConfigCellCharSetEn, "char_set_en.txt", 0),
-        (DataType::ConfigCellCharSetZhHans, "char_set_zh_hans.txt", 0),
-        (DataType::ConfigCellCharSetZhHant, "char_set_zh_hant.txt", 0),
+        // (DataType::ConfigCellCharSetZhHans, "char_set_zh_hans.txt", 0),
+        // (DataType::ConfigCellCharSetZhHant, "char_set_zh_hant.txt", 0),
     ];
 
     let mut output = String::new();
@@ -340,23 +340,11 @@ fn gen_config_cell_char_set() -> String {
 
 fn gen_config_cell_release() -> String {
     #[cfg(feature = "mainnet")]
-    let data = vec![
-        (
-            5,
-            gen_timestamp("2021-09-15 00:00:00"),
-            gen_timestamp("2021-10-15 00:00:00"),
-        ),
-        (
-            6,
-            gen_timestamp("2021-08-15 00:00:00"),
-            gen_timestamp("2021-09-15 00:00:00"),
-        ),
-        (
-            0,
-            gen_timestamp("2021-07-15 00:00:00"),
-            gen_timestamp("2021-08-15 00:00:00"),
-        ),
-    ];
+    let data = vec![(
+        0,
+        gen_timestamp("2021-07-01 00:00:00"),
+        gen_timestamp("2021-07-01 00:00:00"),
+    )];
 
     #[cfg(not(feature = "mainnet"))]
     let data = vec![
