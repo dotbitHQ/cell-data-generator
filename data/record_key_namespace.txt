@@ -46,3 +46,6 @@ address.sol
 address.vet
 address.xlm
 address.ada
+dweb.ipfs
+dweb.ipns
+dweb.resilio
