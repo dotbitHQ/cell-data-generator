@@ -1845,7 +1845,6 @@ bitbupod
 bitclout
 bitcloutlist
 bitcloutpulse
-bitcoin
 bitcoin_al
 bitcoin_arsenal
 bitcoin_bacon
@@ -3100,6 +3099,9 @@ cjmccollum
 cjremus
 cjriscjr
 ck_snarks
+ckbbar
+ckbcommunity
+ckbfans
 ckirubi
 cl207
 claberus
@@ -3665,6 +3667,7 @@ cyantist
 cyber_hokie
 cybercongress
 cybergibbons
+cybermask
 cybermiles
 cyberpunkgame
 cyberx
@@ -10305,6 +10308,8 @@ nerdist
 nerearoficial
 nerlensnoel3
 nervos
+nervoscommunity
+nervosfans
 nervosnetwork
 nescafeindia
 nespresso
