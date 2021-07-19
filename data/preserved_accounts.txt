@@ -1169,6 +1169,7 @@ arsenalwfc
 artbasel
 artblocks
 artbynelly
+artchick
 artdesignbysf
 artem_klyushin
 artemisvol
@@ -5227,6 +5228,7 @@ festus
 fetchai
 fettywap
 feulf
+fewocious
 feyenoord
 ffbasketball
 ffstls
@@ -5530,6 +5532,7 @@ futureperfectventures
 futureswapx
 fuxxxxxroxxka
 fuziondroid
+fvckrender
 fvf_oficial
 fvictorio_nan
 fvirtanen
@@ -11343,6 +11346,7 @@ pirates
 pisto_gol
 pitbull
 pitdesi
+pixelord
 pixielott
 pixies
 pixiv
@@ -14846,6 +14850,7 @@ trentmc0
 trentmcconaghy
 trentw71
 trevorariza
+trevorjones
 trevorjonesart
 trevornoah
 treyarch
@@ -15814,6 +15819,7 @@ xaviersilas
 xbox
 xbrooklynbluex
 xcintakiehlx
+xcopy
 xdai
 xentagz
 xfai
