@@ -16,7 +16,6 @@ fn main() {
         .id(AccountId::try_from(id.clone()).unwrap())
         .account(account)
         .registered_at(Uint64::from(0))
-        .updated_at(Uint64::from(0))
         .status(Uint8::from(0))
         .build();
 
@@ -34,8 +33,11 @@ fn main() {
     ]
     .concat();
     let action_witness = das_util::wrap_action_witness("init_account_chain", None);
-    let cell_witness =
-        das_util::wrap_data_witness(DataType::AccountCellData, Some((1, 0, entity)), None, None);
+    let cell_witness = das_util::wrap_data_witness::<
+        AccountCellData,
+        AccountCellData,
+        AccountCellData,
+    >(DataType::AccountCellData, Some((1, 0, entity)), None, None);
 
     println!(
         "0x 0x{} 0x{} 0x{}",
