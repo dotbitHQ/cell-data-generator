@@ -95,7 +95,7 @@ fn gen_config_cell_income() -> String {
     let entity = ConfigCellIncome::new_builder()
         .basic_capacity(Uint64::from(20_000_000_000))
         .max_records(Uint32::from(50))
-        .min_transfer_capacity(Uint64::from(7_000_000_000))
+        .min_transfer_capacity(Uint64::from(9_000_000_000))
         .build();
 
     gen_return_from_entity!(DataType::ConfigCellIncome, entity)
@@ -227,8 +227,8 @@ fn gen_config_cell_proposal() -> String {
 
 fn gen_config_cell_profit_rate() -> String {
     let entity = ConfigCellProfitRate::new_builder()
-        .channel(Uint32::from(800))
-        .inviter(Uint32::from(800))
+        .channel(Uint32::from(1000))
+        .inviter(Uint32::from(1000))
         .proposal_create(Uint32::from(200))
         .proposal_confirm(Uint32::from(0))
         .income_consolidate(Uint32::from(500))
