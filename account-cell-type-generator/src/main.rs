@@ -37,7 +37,7 @@ fn main() {
         AccountCellData,
         AccountCellData,
         AccountCellData,
-    >(DataType::AccountCellData, Some((1, 0, entity)), None, None);
+    >(DataType::AccountCellData, Some((2, 0, entity)), None, None);
 
     println!(
         "0x 0x{} 0x{} 0x{}",
