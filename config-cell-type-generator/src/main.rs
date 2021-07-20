@@ -378,6 +378,40 @@ fn gen_config_cell_release() -> String {
     gen_return_from_entity!(DataType::ConfigCellRelease, entity)
 }
 
+// fn calc_config_cells_need_update() {
+//     use std::collections::HashSet;
+//
+//     // Load and group preserved accounts
+//     let lines =
+//         read_lines("new_to_update.txt").expect("Expect file ./data/new_to_updated.txt exist.");
+//
+//     let mut id_set = HashSet::new();
+//
+//     for line in lines {
+//         if let Ok(account) = line {
+//             let account_hash = blake2b_256(account.as_bytes())
+//                 .get(..ACCOUNT_ID_LENGTH)
+//                 .unwrap()
+//                 .to_vec();
+//             let index = (account_hash[0] % PRESERVED_ACCOUNT_CELL_COUNT) as usize;
+//             let key = hex_string(((10000 + index) as u32).to_le_bytes().as_ref()).unwrap();
+//             println!("Because {} need to update 0x{}", account, key);
+//
+//             id_set.insert(key);
+//         }
+//     }
+//
+//     let mut id_vec = id_set.into_iter().collect::<Vec<_>>();
+//     id_vec.sort();
+//
+//     println!();
+//     println!("All ConfigCells which need to be updated:");
+//     println!();
+//     for key in id_vec {
+//         println!("0x{}", key)
+//     }
+// }
+
 fn main() {
     print!("{},", gen_config_cell_account());
     print!("{},", gen_config_cell_apply());
@@ -391,4 +425,6 @@ fn main() {
     print!("{},", gen_config_cell_preserved_account());
     print!("{}", gen_config_cell_char_set());
     print!("\n");
+
+    // calc_config_cells_need_update();
 }
