@@ -378,6 +378,16 @@ fn gen_config_cell_release() -> String {
     gen_return_from_entity!(DataType::ConfigCellRelease, entity)
 }
 
+fn gen_config_cell_secondary_market() -> String {
+    let entity = ConfigCellSecondaryMarket::new_builder()
+        .min_sale_price(Uint64::from(20_000_000_000))
+        .sale_expiration_limit(Uint64::from(86400 * 30))
+        .sale_description_bytes_limit(Uint32::from(5000))
+        .build();
+
+    gen_return_from_entity!(DataType::ConfigCellSecondaryMarket, entity)
+}
+
 // fn calc_config_cells_need_update() {
 //     use std::collections::HashSet;
 //
@@ -422,6 +432,7 @@ fn main() {
     print!("{},", gen_config_cell_profit_rate());
     print!("{},", gen_config_cell_record_key_namespace());
     print!("{},", gen_config_cell_release());
+    print!("{},", gen_config_cell_secondary_market());
     print!("{},", gen_config_cell_preserved_account());
     print!("{}", gen_config_cell_char_set());
     print!("\n");
