@@ -5,7 +5,7 @@ use util::{gen_price_config, gen_timestamp, prepend_molecule_like_length, read_l
 
 mod constants;
 mod util;
-
+use hex;
 use constants::*;
 
 macro_rules! gen_return_from_entity {
@@ -421,6 +421,33 @@ fn gen_config_cell_secondary_market() -> String {
 //         println!("0x{}", key)
 //     }
 // }
+
+/**
+this function is nearly the same as the function in template_generator.rs under das-contracts repo.
+**/
+fn gen_config_cell_unavailable_account() -> String {
+    let mut unavailable_account_hashes = Vec::new();
+    let lines = util::read_lines("unavailable_account_hashes.txt")
+        .expect("Expect file ./data/unavailable_account_hashes.txt exist.");
+
+    for line in lines {
+        if let Ok(account_hash_string) = line {
+            let account_hash: Vec<u8> = hex::decode(account_hash_string).unwrap();
+            unavailable_account_hashes.push(account_hash.get(..ACCOUNT_ID_LENGTH).unwrap().to_vec());
+        }
+    }
+
+    unavailable_account_hashes.sort(); // todo: maybe we don't need to sort, traverse is just enough
+
+    let mut raw = Vec::new();
+
+    for account_hash in unavailable_account_hashes {
+        raw.extend(account_hash);
+    }
+    let raw = util::prepend_molecule_like_length(raw);
+
+    gen_return_from_raw!(DataType::ConfigCellUnAvailableAccount, raw)
+}
 
 fn main() {
     print!("{},", gen_config_cell_account());
