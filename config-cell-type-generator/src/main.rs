@@ -5,7 +5,7 @@ use util::{gen_price_config, gen_timestamp, prepend_molecule_like_length, read_l
 
 mod constants;
 mod util;
-
+use hex;
 use constants::*;
 
 macro_rules! gen_return_from_entity {
@@ -378,15 +378,15 @@ fn gen_config_cell_release() -> String {
     gen_return_from_entity!(DataType::ConfigCellRelease, entity)
 }
 
-fn gen_config_cell_secondary_market() -> String {
-    let entity = ConfigCellSecondaryMarket::new_builder()
-        .min_sale_price(Uint64::from(20_000_000_000))
-        .sale_expiration_limit(Uint64::from(86400 * 30))
-        .sale_description_bytes_limit(Uint32::from(5000))
-        .build();
-
-    gen_return_from_entity!(DataType::ConfigCellSecondaryMarket, entity)
-}
+// fn gen_config_cell_secondary_market() -> String {
+//     let entity = ConfigCellSecondaryMarket::new_builder()
+//         .min_sale_price(Uint64::from(20_000_000_000))
+//         .sale_expiration_limit(Uint64::from(86400 * 30))
+//         .sale_description_bytes_limit(Uint32::from(5000))
+//         .build();
+//
+//     gen_return_from_entity!(DataType::ConfigCellSecondaryMarket, entity)
+// }
 
 // fn calc_config_cells_need_update() {
 //     use std::collections::HashSet;
@@ -422,6 +422,33 @@ fn gen_config_cell_secondary_market() -> String {
 //     }
 // }
 
+/**
+this function is nearly the same as the function in template_generator.rs under das-contracts repo.
+**/
+fn gen_config_cell_unavailable_account() -> String {
+    let mut unavailable_account_hashes = Vec::new();
+    let lines = util::read_lines("unavailable_account_hashes.txt")
+        .expect("Expect file ./data/unavailable_account_hashes.txt exist.");
+
+    for line in lines {
+        if let Ok(account_hash_string) = line {
+            let account_hash: Vec<u8> = hex::decode(account_hash_string).unwrap();
+            unavailable_account_hashes.push(account_hash.get(..ACCOUNT_ID_LENGTH).unwrap().to_vec());
+        }
+    }
+
+    unavailable_account_hashes.sort(); // todo: maybe we don't need to sort, traverse is just enough
+
+    let mut raw = Vec::new();
+
+    for account_hash in unavailable_account_hashes {
+        raw.extend(account_hash);
+    }
+    let raw = util::prepend_molecule_like_length(raw);
+
+    gen_return_from_raw!(DataType::ConfigCellUnAvailableAccount, raw)
+}
+
 fn main() {
     print!("{},", gen_config_cell_account());
     print!("{},", gen_config_cell_apply());
@@ -432,8 +459,9 @@ fn main() {
     print!("{},", gen_config_cell_profit_rate());
     print!("{},", gen_config_cell_record_key_namespace());
     print!("{},", gen_config_cell_release());
-    print!("{},", gen_config_cell_secondary_market());
+    // print!("{},", gen_config_cell_secondary_market());
     print!("{},", gen_config_cell_preserved_account());
+    print!("{},", gen_config_cell_unavailable_account());
     print!("{}", gen_config_cell_char_set());
     print!("\n");
 
