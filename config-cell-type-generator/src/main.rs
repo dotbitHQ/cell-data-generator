@@ -105,66 +105,20 @@ fn gen_config_cell_main() -> String {
     // ⚠️ Do not modify the following lines of type_id_table,
     // it will be use for search and replace in deploy scripts.
     let type_id_table = TypeIdTable::new_builder()
-        .account_cell(Hash::from([
-            17, 6, 217, 234, 204, 222, 9, 149, 167, 224, 126, 128, 221, 12, 231, 80, 159, 33, 117,
-            37, 56, 223, 221, 30, 226, 82, 109, 36, 87, 72, 70, 177,
-        ]))
-        .apply_register_cell(Hash::from([
-            15, 191, 248, 113, 221, 5, 174, 225, 253, 162, 190, 56, 120, 106, 210, 29, 82, 162,
-            118, 92, 96, 37, 209, 239, 105, 39, 215, 97, 213, 26, 60, 209,
-        ]))
-        .bidding_cell(Hash::default())
-        .income_cell(Hash::from([
-            8, 209, 205, 198, 171, 146, 217, 202, 190, 0, 150, 162, 199, 100, 47, 115, 208, 239,
-            27, 36, 201, 76, 67, 242, 28, 108, 58, 50, 255, 224, 187, 94,
-        ]))
-        .on_sale_cell(Hash::default())
-        .pre_account_cell(Hash::from([
-            108, 132, 65, 35, 63, 0, 116, 25, 85, 246, 94, 71, 103, 33, 161, 165, 65, 121, 151,
-            193, 228, 54, 136, 1, 201, 156, 127, 97, 127, 139, 117, 68,
-        ]))
-        .proposal_cell(Hash::from([
-            103, 212, 140, 9, 17, 228, 6, 81, 141, 226, 17, 107, 217, 28, 106, 243, 124, 5, 241,
-            219, 35, 51, 76, 168, 41, 210, 175, 48, 66, 66, 126, 68,
-        ]))
+        .account_cell(Hash::from([]))
+        .apply_register_cell(Hash::from([]))
+        .balance_cell(Hash::from([]))
+        .income_cell(Hash::from([]))
+        .pre_account_cell(Hash::from([]))
+        .proposal_cell(Hash::from([]))
         .build();
 
     let das_lock_out_point_table = DasLockOutPointTable::new_builder()
-        .ckb_signall(out_point!(
-            [
-                0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
-                0, 0, 0, 0,
-            ],
-            0
-        ))
-        .ckb_multisign(out_point!(
-            [
-                0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
-                0, 0, 0, 0,
-            ],
-            0
-        ))
-        .ckb_anyone_can_pay(out_point!(
-            [
-                0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
-                0, 0, 0, 0,
-            ],
-            0
-        ))
-        .eth(out_point!(
-            [
-                0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
-                0, 0, 0, 0,
-            ],
-            0
-        ))
-        .tron(out_point!(
-            [
-                0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
-                0, 0, 0, 0,
-            ],
-            0
-        ))
+        .ckb_signall(out_point!([], 0))
+        // .ckb_multisign(out_point!([], 0))
+        // .ckb_anyone_can_pay(out_point!([], 0))
+        .eth(out_point!([], 0))
+        .tron(out_point!([], 0))
         .build();
 
     let entity = ConfigCellMain::new_builder()
@@ -378,15 +332,15 @@ fn gen_config_cell_release() -> String {
     gen_return_from_entity!(DataType::ConfigCellRelease, entity)
 }
 
-fn gen_config_cell_secondary_market() -> String {
-    let entity = ConfigCellSecondaryMarket::new_builder()
-        .min_sale_price(Uint64::from(20_000_000_000))
-        .sale_expiration_limit(Uint64::from(86400 * 30))
-        .sale_description_bytes_limit(Uint32::from(5000))
-        .build();
-
-    gen_return_from_entity!(DataType::ConfigCellSecondaryMarket, entity)
-}
+// fn gen_config_cell_secondary_market() -> String {
+//     let entity = ConfigCellSecondaryMarket::new_builder()
+//         .min_sale_price(Uint64::from(20_000_000_000))
+//         .sale_expiration_limit(Uint64::from(86400 * 30))
+//         .sale_description_bytes_limit(Uint32::from(5000))
+//         .build();
+//
+//     gen_return_from_entity!(DataType::ConfigCellSecondaryMarket, entity)
+// }
 
 // fn calc_config_cells_need_update() {
 //     use std::collections::HashSet;
@@ -432,7 +386,7 @@ fn main() {
     print!("{},", gen_config_cell_profit_rate());
     print!("{},", gen_config_cell_record_key_namespace());
     print!("{},", gen_config_cell_release());
-    print!("{},", gen_config_cell_secondary_market());
+    // print!("{},", gen_config_cell_secondary_market());
     print!("{},", gen_config_cell_preserved_account());
     print!("{}", gen_config_cell_char_set());
     print!("\n");
