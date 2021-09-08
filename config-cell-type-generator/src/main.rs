@@ -104,6 +104,7 @@ fn gen_config_cell_income() -> String {
 fn gen_config_cell_main() -> String {
     // ⚠️ Do not modify the following lines of type_id_table,
     // it will be use for search and replace in deploy scripts.
+    /* CAREFUL do not commit any changes for these configs below ⬇️ */
     let type_id_table = TypeIdTable::new_builder()
         .account_cell(Hash::from([]))
         .apply_register_cell(Hash::from([]))
@@ -120,6 +121,7 @@ fn gen_config_cell_main() -> String {
         .eth(out_point!([], 0))
         .tron(out_point!([], 0))
         .build();
+    /* CAREFUL do not commit any changes for these configs above ⬆️ */
 
     let entity = ConfigCellMain::new_builder()
         .status(Uint8::from(1))
