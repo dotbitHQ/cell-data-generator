@@ -5,8 +5,8 @@ use util::{gen_price_config, gen_timestamp, prepend_molecule_like_length, read_l
 
 mod constants;
 mod util;
-use hex;
 use constants::*;
+use hex;
 
 macro_rules! gen_return_from_entity {
     ( $config_type:expr, $entity:expr ) => {{
@@ -22,7 +22,10 @@ macro_rules! gen_return_from_entity {
         //     cell_witness.as_slice().len()
         // );
         if cell_witness.as_slice().len() > WITNESS_SIZE_LIMIT {
-            panic!("The size of {:?} is more than {} bytes, this needs to modify das-contracts to support.", $config_type, WITNESS_SIZE_LIMIT)
+            panic!(
+                "The size of {:?} is more than {} bytes, this needs to modify das-contracts to support.",
+                $config_type, WITNESS_SIZE_LIMIT
+            )
         }
 
         format!(
@@ -49,7 +52,10 @@ macro_rules! gen_return_from_raw {
         //     cell_witness.as_slice().len()
         // );
         if cell_witness.as_slice().len() > WITNESS_SIZE_LIMIT {
-            panic!("The size of {:?} is more than {} bytes, this needs to modify das-contracts to support.", $config_type, WITNESS_SIZE_LIMIT)
+            panic!(
+                "The size of {:?} is more than {} bytes, this needs to modify das-contracts to support.",
+                $config_type, WITNESS_SIZE_LIMIT
+            )
         }
 
         format!(
@@ -95,7 +101,7 @@ fn gen_config_cell_income() -> String {
     let entity = ConfigCellIncome::new_builder()
         .basic_capacity(Uint64::from(20_000_000_000))
         .max_records(Uint32::from(50))
-        .min_transfer_capacity(Uint64::from(9_000_000_000))
+        .min_transfer_capacity(Uint64::from(12_000_000_000))
         .build();
 
     gen_return_from_entity!(DataType::ConfigCellIncome, entity)
@@ -124,7 +130,7 @@ fn gen_config_cell_main() -> String {
     /* CAREFUL do not commit any changes for these configs above ⬆️ */
 
     let entity = ConfigCellMain::new_builder()
-        .status(Uint8::from(1))
+        .status(Uint8::from(SystemStatus::On as u8))
         .type_id_table(type_id_table)
         .das_lock_out_point_table(das_lock_out_point_table)
         .build();
@@ -141,8 +147,8 @@ fn gen_config_cell_price() -> String {
     let prices = PriceConfigList::new_builder()
         .push(gen_price_config(1, 1024_000_000, 1024_000_000))
         .push(gen_price_config(2, 1024_000_000, 1024_000_000))
-        .push(gen_price_config(3, 1024_000_000, 1024_000_000))
-        .push(gen_price_config(4, 1024_000_000, 1024_000_000))
+        .push(gen_price_config(3, 660_000_000, 660_000_000))
+        .push(gen_price_config(4, 160_000_000, 160_000_000))
         .push(gen_price_config(5, 5_000_000, 5_000_000))
         .push(gen_price_config(6, 5_000_000, 5_000_000))
         .push(gen_price_config(7, 5_000_000, 5_000_000))
@@ -161,10 +167,7 @@ fn gen_config_cell_price() -> String {
         .push(gen_price_config(8, 5_000_000, 5_000_000))
         .build();
 
-    let entity = ConfigCellPrice::new_builder()
-        .discount(discount)
-        .prices(prices)
-        .build();
+    let entity = ConfigCellPrice::new_builder().discount(discount).prices(prices).build();
 
     gen_return_from_entity!(DataType::ConfigCellPrice, entity)
 }
@@ -195,8 +198,7 @@ fn gen_config_cell_profit_rate() -> String {
 
 fn gen_config_cell_record_key_namespace() -> String {
     let mut record_key_namespace = Vec::new();
-    let lines = read_lines("record_key_namespace.txt")
-        .expect("Expect file ./data/record_key_namespace.txt exist.");
+    let lines = read_lines("record_key_namespace.txt").expect("Expect file ./data/record_key_namespace.txt exist.");
     for line in lines {
         if let Ok(key) = line {
             record_key_namespace.push(key);
@@ -217,10 +219,8 @@ fn gen_config_cell_record_key_namespace() -> String {
 
 fn gen_config_cell_preserved_account() -> String {
     // Load and group preserved accounts
-    let mut preserved_accounts_groups: Vec<Vec<Vec<u8>>> =
-        vec![Vec::new(); PRESERVED_ACCOUNT_CELL_COUNT as usize];
-    let lines = read_lines("preserved_accounts.txt")
-        .expect("Expect file ./data/preserved_accounts.txt exist.");
+    let mut preserved_accounts_groups: Vec<Vec<Vec<u8>>> = vec![Vec::new(); PRESERVED_ACCOUNT_CELL_COUNT as usize];
+    let lines = read_lines("preserved_accounts.txt").expect("Expect file ./data/preserved_accounts.txt exist.");
     for line in lines {
         if let Ok(account) = line {
             let account_hash = blake2b_256(account.as_bytes())
@@ -267,8 +267,7 @@ fn gen_config_cell_char_set() -> String {
     let mut comma = "";
     for (_i, setting) in settings.iter().enumerate() {
         let mut charsets = Vec::new();
-        let lines = read_lines(setting.1)
-            .expect(format!("Expect file ./data/{} exist.", setting.1).as_str());
+        let lines = read_lines(setting.1).expect(format!("Expect file ./data/{} exist.", setting.1).as_str());
         for line in lines {
             if let Ok(char) = line {
                 charsets.push(char);

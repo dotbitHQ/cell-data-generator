@@ -38,8 +38,8 @@ pub fn prepend_molecule_like_length(raw: Vec<u8>) -> Vec<u8> {
 }
 
 pub fn gen_timestamp(datetime: &str) -> u64 {
-    let navie_datetime = NaiveDateTime::parse_from_str(datetime, "%Y-%m-%d %H:%M:%S")
-        .expect("Invalid datetime format.");
+    let navie_datetime =
+        NaiveDateTime::parse_from_str(datetime, "%Y-%m-%d %H:%M:%S").expect("Invalid datetime format.");
     let datetime = DateTime::<Utc>::from_utc(navie_datetime, Utc);
     datetime.timestamp() as u64
 }
