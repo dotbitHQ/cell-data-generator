@@ -8,6 +8,15 @@ mod util;
 use constants::*;
 use hex;
 
+macro_rules! out_point {
+    ($tx_hash:expr, $index:expr) => {
+        OutPoint::new_builder()
+            .tx_hash(Hash::from($tx_hash))
+            .index(Uint32::from($index))
+            .build()
+    };
+}
+
 macro_rules! gen_return_from_entity {
     ( $config_type:expr, $entity:expr ) => {{
         let config_type = ($config_type as u32).to_le_bytes();
@@ -217,10 +226,10 @@ fn gen_config_cell_record_key_namespace() -> String {
     gen_return_from_raw!(DataType::ConfigCellRecordKeyNamespace, raw)
 }
 
-fn gen_config_cell_preserved_account() -> String {
+fn gen_config_cell_reserved_account() -> String {
     // Load and group preserved accounts
     let mut preserved_accounts_groups: Vec<Vec<Vec<u8>>> = vec![Vec::new(); PRESERVED_ACCOUNT_CELL_COUNT as usize];
-    let lines = read_lines("preserved_accounts.txt").expect("Expect file ./data/preserved_accounts.txt exist.");
+    let lines = read_lines("reserved_accounts.txt").expect("Expect file ./data/reserved_accounts.txt exist.");
     for line in lines {
         if let Ok(account) = line {
             let account_hash = blake2b_256(account.as_bytes())
@@ -415,7 +424,7 @@ fn main() {
     print!("{},", gen_config_cell_record_key_namespace());
     print!("{},", gen_config_cell_release());
     // print!("{},", gen_config_cell_secondary_market());
-    print!("{},", gen_config_cell_preserved_account());
+    print!("{},", gen_config_cell_reserved_account());
     print!("{},", gen_config_cell_unavailable_account());
     print!("{}", gen_config_cell_char_set());
     print!("\n");
