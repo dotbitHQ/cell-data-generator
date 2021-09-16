@@ -2,4 +2,5 @@
 members = [
     "account-cell-type-generator",
     "config-cell-type-generator",
+    "reserved-account-combiner",
 ]
