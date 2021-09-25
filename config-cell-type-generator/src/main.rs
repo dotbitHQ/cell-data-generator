@@ -1,5 +1,5 @@
 use ckb_hash::blake2b_256;
-use das_types::{constants::*, out_point, packed::*, prelude::*, util as das_util};
+use das_types::{constants::*, packed::*, prelude::*, util as das_util};
 use faster_hex::hex_string;
 use util::{gen_price_config, gen_timestamp, prepend_molecule_like_length, read_lines};
 
@@ -122,6 +122,8 @@ fn gen_config_cell_main() -> String {
     /* CAREFUL do not commit any changes for these configs below ⬇️ */
     let type_id_table = TypeIdTable::new_builder()
         .account_cell(Hash::from([]))
+        .account_sale_cell(Hash::from([]))
+        .account_auction_cell(Hash::from([]))
         .apply_register_cell(Hash::from([]))
         .balance_cell(Hash::from([]))
         .income_cell(Hash::from([]))
@@ -342,15 +344,18 @@ fn gen_config_cell_release() -> String {
     gen_return_from_entity!(DataType::ConfigCellRelease, entity)
 }
 
-// fn gen_config_cell_secondary_market() -> String {
-//     let entity = ConfigCellSecondaryMarket::new_builder()
-//         .min_sale_price(Uint64::from(20_000_000_000))
-//         .sale_expiration_limit(Uint64::from(86400 * 30))
-//         .sale_description_bytes_limit(Uint32::from(5000))
-//         .build();
-//
-//     gen_return_from_entity!(DataType::ConfigCellSecondaryMarket, entity)
-// }
+fn gen_config_cell_secondary_market() -> String {
+    let entity = ConfigCellSecondaryMarket::new_builder()
+        .common_fee(Uint64::from(10_000))
+        .sale_min_price(Uint64::from(20_000_000_000))
+        .sale_expiration_limit(Uint32::from(86400 * 30))
+        .sale_description_bytes_limit(Uint32::from(5000))
+        .sale_cell_basic_capacity(Uint64::from(15_000_000_000))
+        .sale_cell_prepared_fee_capacity(Uint64::from(100_000_000))
+        .build();
+
+    gen_return_from_entity!(DataType::ConfigCellSecondaryMarket, entity)
+}
 
 // fn calc_config_cells_need_update() {
 //     use std::collections::HashSet;
@@ -423,7 +428,7 @@ fn main() {
     print!("{},", gen_config_cell_profit_rate());
     print!("{},", gen_config_cell_record_key_namespace());
     print!("{},", gen_config_cell_release());
-    // print!("{},", gen_config_cell_secondary_market());
+    print!("{},", gen_config_cell_secondary_market());
     print!("{},", gen_config_cell_reserved_account());
     print!("{},", gen_config_cell_unavailable_account());
     print!("{}", gen_config_cell_char_set());
