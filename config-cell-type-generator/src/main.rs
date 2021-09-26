@@ -89,9 +89,11 @@ fn gen_config_cell_account() -> String {
         .transfer_account_fee(Uint64::from(10_000))
         .edit_manager_fee(Uint64::from(10_000))
         .edit_records_fee(Uint64::from(10_000))
+        .common_fee(Uint64::from(10_000))
         .transfer_account_throttle(Uint32::from(300))
         .edit_manager_throttle(Uint32::from(300))
         .edit_records_throttle(Uint32::from(300))
+        .common_throttle(Uint32::from(300))
         .build();
 
     gen_return_from_entity!(DataType::ConfigCellAccount, entity)
@@ -202,6 +204,13 @@ fn gen_config_cell_profit_rate() -> String {
         .proposal_create(Uint32::from(200))
         .proposal_confirm(Uint32::from(0))
         .income_consolidate(Uint32::from(500))
+        .sale_buyer_inviter(Uint32::from(100))
+        .sale_buyer_channel(Uint32::from(100))
+        .sale_das(Uint32::from(100))
+        .auction_bidder_inviter(Uint32::from(100))
+        .auction_bidder_channel(Uint32::from(100))
+        .auction_das(Uint32::from(100))
+        .auction_prev_bidder(Uint32::from(4700))
         .build();
 
     gen_return_from_entity!(DataType::ConfigCellProfitRate, entity)
@@ -352,6 +361,13 @@ fn gen_config_cell_secondary_market() -> String {
         .sale_description_bytes_limit(Uint32::from(5000))
         .sale_cell_basic_capacity(Uint64::from(15_000_000_000))
         .sale_cell_prepared_fee_capacity(Uint64::from(100_000_000))
+        .auction_max_extendable_duration(Uint32::from(86400 * 7))
+        .auction_duration_increment_each_bid(Uint32::from(600))
+        .auction_min_opening_price(Uint64::from(200_000_000_000))
+        .auction_min_increment_rate_each_bid(Uint32::from(1000))
+        .auction_description_bytes_limit(Uint32::from(5000))
+        .auction_cell_basic_capacity(Uint64::from(15_000_000_000))
+        .auction_cell_prepared_fee_capacity(Uint64::from(100_000_000))
         .build();
 
     gen_return_from_entity!(DataType::ConfigCellSecondaryMarket, entity)
