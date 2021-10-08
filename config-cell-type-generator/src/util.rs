@@ -6,9 +6,10 @@ use std::io::{BufRead, BufReader, Lines, Result};
 use std::{env, io, path::PathBuf};
 
 pub fn read_lines(file_name: &str) -> Result<Lines<BufReader<File>>> {
-    let dir = env::current_dir().unwrap();
+    let dir = env::current_exe().unwrap();
+    let project_dir = dir.parent().unwrap().parent().unwrap().parent().unwrap();
     let mut file_path = PathBuf::new();
-    file_path.push(dir);
+    file_path.push(project_dir);
     file_path.push("data");
     file_path.push(file_name);
 

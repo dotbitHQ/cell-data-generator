@@ -356,11 +356,13 @@ fn gen_config_cell_release() -> String {
 fn gen_config_cell_secondary_market() -> String {
     let entity = ConfigCellSecondaryMarket::new_builder()
         .common_fee(Uint64::from(10_000))
-        .sale_min_price(Uint64::from(20_000_000_000))
+        // sale
+        .sale_min_price(Uint64::from(203_400_000_000))
         .sale_expiration_limit(Uint32::from(86400 * 30))
         .sale_description_bytes_limit(Uint32::from(5000))
         .sale_cell_basic_capacity(Uint64::from(20_000_000_000))
         .sale_cell_prepared_fee_capacity(Uint64::from(100_000_000))
+        // auction
         .auction_max_extendable_duration(Uint32::from(86400 * 7))
         .auction_duration_increment_each_bid(Uint32::from(600))
         .auction_min_opening_price(Uint64::from(200_000_000_000))
@@ -449,6 +451,4 @@ fn main() {
     print!("{},", gen_config_cell_unavailable_account());
     print!("{}", gen_config_cell_char_set());
     print!("\n");
-
-    // calc_config_cells_need_update();
 }
