@@ -357,7 +357,7 @@ fn gen_config_cell_secondary_market() -> String {
     let entity = ConfigCellSecondaryMarket::new_builder()
         .common_fee(Uint64::from(10_000))
         // sale
-        .sale_min_price(Uint64::from(203_400_000_000))
+        .sale_min_price(Uint64::from(20_000_000_000))
         .sale_expiration_limit(Uint32::from(86400 * 30))
         .sale_description_bytes_limit(Uint32::from(5000))
         .sale_cell_basic_capacity(Uint64::from(20_000_000_000))
