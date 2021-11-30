@@ -187,7 +187,7 @@ fn gen_config_cell_price() -> String {
 
 fn gen_config_cell_proposal() -> String {
     let entity = ConfigCellProposal::new_builder()
-        .proposal_min_confirm_interval(Uint8::from(2))
+        .proposal_min_confirm_interval(Uint8::from(0))
         .proposal_min_extend_interval(Uint8::from(1))
         .proposal_min_recycle_interval(Uint8::from(8))
         .proposal_max_account_affect(Uint32::from(50))
@@ -205,7 +205,7 @@ fn gen_config_cell_profit_rate() -> String {
         .proposal_confirm(Uint32::from(0))
         .income_consolidate(Uint32::from(500))
         .sale_buyer_inviter(Uint32::from(100))
-        .sale_buyer_channel(Uint32::from(100))
+        .sale_buyer_channel(Uint32::from(150))
         .sale_das(Uint32::from(100))
         .auction_bidder_inviter(Uint32::from(100))
         .auction_bidder_channel(Uint32::from(100))
@@ -354,6 +354,7 @@ fn gen_config_cell_release() -> String {
 }
 
 fn gen_config_cell_secondary_market() -> String {
+    // CAREFUL The minimum price should contains the basic_capacity of AccountCell.
     let entity = ConfigCellSecondaryMarket::new_builder()
         .common_fee(Uint64::from(10_000))
         // sale
@@ -362,6 +363,11 @@ fn gen_config_cell_secondary_market() -> String {
         .sale_description_bytes_limit(Uint32::from(5000))
         .sale_cell_basic_capacity(Uint64::from(20_000_000_000))
         .sale_cell_prepared_fee_capacity(Uint64::from(100_000_000))
+        // offser
+        .offer_cell_basic_capacity(Uint64::from(20_000_000_000))
+        .offer_cell_prepared_fee_capacity(Uint64::from(100_000_000))
+        .offer_min_price(Uint64::from(100_000_000_000))
+        .offer_message_bytes_limit(Uint32::from(5000))
         // auction
         .auction_max_extendable_duration(Uint32::from(86400 * 7))
         .auction_duration_increment_each_bid(Uint32::from(600))
@@ -373,6 +379,16 @@ fn gen_config_cell_secondary_market() -> String {
         .build();
 
     gen_return_from_entity!(DataType::ConfigCellSecondaryMarket, entity)
+}
+
+fn gen_config_cell_reverse_resolution() -> String {
+    let entity = ConfigCellReverseResolution::new_builder()
+        .record_basic_capacity(Uint64::from(20_000_000_000))
+        .record_prepared_fee_capacity(Uint64::from(100_000_000))
+        .common_fee(Uint64::from(10_000))
+        .build();
+
+    gen_return_from_entity!(DataType::ConfigCellReverseResolution, entity)
 }
 
 // fn calc_config_cells_need_update() {
@@ -447,6 +463,7 @@ fn main() {
     print!("{},", gen_config_cell_record_key_namespace());
     print!("{},", gen_config_cell_release());
     print!("{},", gen_config_cell_secondary_market());
+    print!("{},", gen_config_cell_reverse_resolution());
     print!("{},", gen_config_cell_reserved_account());
     print!("{},", gen_config_cell_unavailable_account());
     print!("{}", gen_config_cell_char_set());
