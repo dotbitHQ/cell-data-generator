@@ -129,6 +129,7 @@ fn gen_config_cell_main() -> String {
         .apply_register_cell(Hash::from([]))
         .balance_cell(Hash::from([]))
         .income_cell(Hash::from([]))
+        .offer_cell(Hash::from([]))
         .pre_account_cell(Hash::from([]))
         .proposal_cell(Hash::from([]))
         .build();
