@@ -351,7 +351,7 @@ dependencies = [
 
 [[package]]
 name = "das-types"
-version = "1.4.0"
+version = "1.5.0"
 dependencies = [
  "ckb-std",
  "ckb-types",

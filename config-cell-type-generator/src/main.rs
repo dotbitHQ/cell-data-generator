@@ -125,13 +125,14 @@ fn gen_config_cell_main() -> String {
     let type_id_table = TypeIdTable::new_builder()
         .account_cell(Hash::from([]))
         .account_sale_cell(Hash::from([]))
-        .account_auction_cell(Hash::from([]))
+        // .account_auction_cell(Hash::from([]))
         .apply_register_cell(Hash::from([]))
         .balance_cell(Hash::from([]))
         .income_cell(Hash::from([]))
         .offer_cell(Hash::from([]))
         .pre_account_cell(Hash::from([]))
         .proposal_cell(Hash::from([]))
+        .reverse_record_cell(Hash::from([]))
         .build();
 
     let das_lock_out_point_table = DasLockOutPointTable::new_builder()
