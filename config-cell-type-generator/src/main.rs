@@ -227,6 +227,7 @@ fn gen_config_cell_record_key_namespace() -> String {
         }
     }
     record_key_namespace.sort();
+    // println!("record_key_namespace: \n{}", record_key_namespace.join("\n"));
 
     // Join all record keys with 0x00 byte as entity.
     let mut raw = Vec::new();
