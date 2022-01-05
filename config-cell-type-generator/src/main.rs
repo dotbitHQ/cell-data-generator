@@ -358,7 +358,7 @@ fn gen_config_cell_release() -> String {
 fn gen_config_cell_secondary_market() -> String {
     // CAREFUL The minimum price should contains the basic_capacity of AccountCell.
     let entity = ConfigCellSecondaryMarket::new_builder()
-        .common_fee(Uint64::from(20_000))
+        .common_fee(Uint64::from(10_000))
         // sale
         .sale_min_price(Uint64::from(20_000_000_000))
         .sale_expiration_limit(Uint32::from(86400 * 30))

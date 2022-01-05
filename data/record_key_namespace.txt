@@ -47,6 +47,12 @@ address.vet
 address.xlm
 address.ada
 address.polygon
+address.terra
+address.avalanche
+address.dfinity
+address.tezos
+address.stacks
+address.celo
 dweb.ipfs
 dweb.ipns
 dweb.resilio
