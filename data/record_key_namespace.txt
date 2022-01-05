@@ -14,6 +14,7 @@ profile.website
 profile.youtube
 profile.bilibili
 profile.tiktok
+profile.jike
 address.btc
 address.eth
 address.ckb
@@ -50,7 +51,6 @@ address.polygon
 address.terra
 address.avalanche
 address.dfinity
-address.tezos
 address.stacks
 address.celo
 dweb.ipfs
