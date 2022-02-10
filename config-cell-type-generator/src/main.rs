@@ -141,6 +141,7 @@ fn gen_config_cell_main() -> String {
         // .ckb_anyone_can_pay(out_point!([], 0))
         .eth(out_point!([], 0))
         .tron(out_point!([], 0))
+        .ed25519(out_point!([], 0))
         .build();
     /* CAREFUL do not commit any changes for these configs above ⬆️ */
 
