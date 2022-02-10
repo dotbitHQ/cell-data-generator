@@ -1,9 +1,13 @@
 use super::constants::*;
 use chrono::{DateTime, NaiveDateTime, Utc};
-use das_types::{packed::*, prelude::*};
-use std::fs::File;
-use std::io::{BufRead, BufReader, Lines, Result};
-use std::{env, io, path::PathBuf};
+use das_types_std::{packed::*, prelude::*};
+use std::{
+    fs::File,
+    io::{BufRead, BufReader, Lines, Result},
+    env,
+    io,
+    path::PathBuf
+};
 
 pub fn read_lines(file_name: &str) -> Result<Lines<BufReader<File>>> {
     let dir = env::current_exe().unwrap();

@@ -1,5 +1,5 @@
 use ckb_hash::blake2b_256;
-use das_types::{constants::*, packed::*, prelude::*, util as das_util};
+use das_types_std::{constants::*, packed::*, prelude::*, util as das_util};
 use faster_hex::hex_string;
 use std::convert::TryFrom;
 
