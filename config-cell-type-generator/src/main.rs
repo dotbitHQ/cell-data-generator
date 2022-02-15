@@ -81,7 +81,7 @@ fn gen_config_cell_account() -> String {
     let entity = ConfigCellAccount::new_builder()
         .max_length(Uint32::from(42))
         // The basic_capacity contains 1 CKB for kinds of fees
-        .basic_capacity(Uint64::from(22_000_000_000))
+        .basic_capacity(Uint64::from(20_600_000_000))
         .prepared_fee_capacity(Uint64::from(100_000_000))
         .expiration_grace_period(Uint32::from(2_592_000))
         .record_min_ttl(Uint32::from(300))
