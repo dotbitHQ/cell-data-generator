@@ -319,40 +319,20 @@ fn gen_config_cell_char_set() -> String {
 }
 
 fn gen_config_cell_release() -> String {
+    // release to 40% = 1717986918
+    // release to 45% = 1932735282
+    // release to 50% = 2147483647
+    // release to 55% = 2362232012
+    // release to 60% = 2576980377
+
     #[cfg(feature = "mainnet")]
-    let data = vec![(
-        0,
-        gen_timestamp("2021-07-01 00:00:00"),
-        gen_timestamp("2021-07-01 00:00:00"),
-    )];
+    let lucky_number = 1503238553;
 
     #[cfg(not(feature = "mainnet"))]
-    let data = vec![
-        (
-            2,
-            gen_timestamp("2021-07-01 00:00:00"),
-            gen_timestamp("2021-07-31 00:00:00"),
-        ),
-        (
-            0,
-            gen_timestamp("2021-06-1 00:00:00"),
-            gen_timestamp("2021-06-1 00:00:00"),
-        ),
-    ];
-
-    let mut release_rules = ReleaseRules::new_builder();
-    for item in data.into_iter() {
-        release_rules = release_rules.push(
-            ReleaseRule::new_builder()
-                .length(Uint32::from(item.0))
-                .release_start(Uint64::from(item.1))
-                .release_end(Uint64::from(item.2))
-                .build(),
-        );
-    }
+    let lucky_number = 2147483647;
 
     let entity = ConfigCellRelease::new_builder()
-        .release_rules(release_rules.build())
+        .lucky_number(Uint32::from(lucky_number))
         .build();
 
     gen_return_from_entity!(DataType::ConfigCellRelease, entity)
