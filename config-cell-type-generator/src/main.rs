@@ -396,6 +396,22 @@ fn gen_config_cell_reverse_resolution() -> String {
     gen_return_from_entity!(DataType::ConfigCellReverseResolution, entity)
 }
 
+fn gen_config_cell_sub_account() -> String {
+    let entity = ConfigCellSubAccount::new_builder()
+        .basic_capacity(Uint64::from(20_000_000_000))
+        .prepared_fee_capacity(Uint64::from(2_000_000_000))
+        .new_sub_account_price(Uint64::from(100_000_000))
+        .renew_sub_account_price(Uint64::from(100_000_000))
+        .common_fee(Uint64::from(10_000))
+        .create_fee(Uint64::from(10_000))
+        .edit_fee(Uint64::from(10_000))
+        .renew_fee(Uint64::from(10_000))
+        .recycle_fee(Uint64::from(10_000))
+        .build();
+
+    gen_return_from_entity!(DataType::ConfigCellSubAccount, entity)
+}
+
 // fn calc_config_cells_need_update() {
 //     use std::collections::HashSet;
 //
@@ -469,6 +485,7 @@ fn main() {
     print!("{},", gen_config_cell_release());
     print!("{},", gen_config_cell_secondary_market());
     print!("{},", gen_config_cell_reverse_resolution());
+    print!("{},", gen_config_cell_sub_account());
     print!("{},", gen_config_cell_reserved_account());
     print!("{},", gen_config_cell_unavailable_account());
     print!("{}", gen_config_cell_char_set());
