@@ -123,25 +123,26 @@ fn gen_config_cell_main() -> String {
     // it will be use for search and replace in deploy scripts.
     /* CAREFUL do not commit any changes for these configs below ⬇️ */
     let type_id_table = TypeIdTable::new_builder()
-        .account_cell(Hash::from([]))
-        .account_sale_cell(Hash::from([]))
+        .account_cell(Hash::from([0u8; 32]))
+        .account_sale_cell(Hash::from([0u8; 32]))
         // .account_auction_cell(Hash::from([]))
-        .apply_register_cell(Hash::from([]))
-        .balance_cell(Hash::from([]))
-        .income_cell(Hash::from([]))
-        .offer_cell(Hash::from([]))
-        .pre_account_cell(Hash::from([]))
-        .proposal_cell(Hash::from([]))
-        .reverse_record_cell(Hash::from([]))
+        .apply_register_cell(Hash::from([0u8; 32]))
+        .balance_cell(Hash::from([0u8; 32]))
+        .income_cell(Hash::from([0u8; 32]))
+        .offer_cell(Hash::from([0u8; 32]))
+        .pre_account_cell(Hash::from([0u8; 32]))
+        .proposal_cell(Hash::from([0u8; 32]))
+        .reverse_record_cell(Hash::from([0u8; 32]))
+        .sub_account_cell(Hash::from([0u8; 32]))
         .build();
 
     let das_lock_out_point_table = DasLockOutPointTable::new_builder()
-        .ckb_signall(out_point!([], 0))
+        .ckb_signall(out_point!([0u8; 32], 0))
         // .ckb_multisign(out_point!([], 0))
         // .ckb_anyone_can_pay(out_point!([], 0))
-        .eth(out_point!([], 0))
-        .tron(out_point!([], 0))
-        .ed25519(out_point!([], 0))
+        .eth(out_point!([0u8; 32], 0))
+        .tron(out_point!([0u8; 32], 0))
+        .ed25519(out_point!([0u8; 32], 0))
         .build();
     /* CAREFUL do not commit any changes for these configs above ⬆️ */
 
@@ -344,8 +345,8 @@ fn gen_config_cell_release() -> String {
         release_rules = release_rules.push(
             ReleaseRule::new_builder()
                 .length(Uint32::from(item.0))
-                .release_start(Timestamp::from(item.1))
-                .release_end(Timestamp::from(item.2))
+                .release_start(Uint64::from(item.1))
+                .release_end(Uint64::from(item.2))
                 .build(),
         );
     }
