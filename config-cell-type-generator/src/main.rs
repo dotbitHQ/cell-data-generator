@@ -317,6 +317,7 @@ fn gen_config_cell_char_set() -> String {
     output
 }
 
+///0x6d000000
 fn gen_config_cell_release() -> String {
     // release to 40% = 1717986918
     // release to 45% = 1932735282
@@ -325,7 +326,7 @@ fn gen_config_cell_release() -> String {
     // release to 60% = 2576980377
 
     #[cfg(feature = "mainnet")]
-    let lucky_number = 1503238553;
+    let lucky_number = 1932735282;
 
     #[cfg(not(feature = "mainnet"))]
     let lucky_number = 2147483647;
