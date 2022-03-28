@@ -402,11 +402,11 @@ fn gen_config_cell_sub_account() -> String {
         .prepared_fee_capacity(Uint64::from(2_000_000_000))
         .new_sub_account_price(Uint64::from(100_000_000))
         .renew_sub_account_price(Uint64::from(100_000_000))
-        .common_fee(Uint64::from(10_000))
-        .create_fee(Uint64::from(10_000))
-        .edit_fee(Uint64::from(10_000))
-        .renew_fee(Uint64::from(10_000))
-        .recycle_fee(Uint64::from(10_000))
+        .common_fee(Uint64::from(30_000))
+        .create_fee(Uint64::from(30_000))
+        .edit_fee(Uint64::from(30_000))
+        .renew_fee(Uint64::from(30_000))
+        .recycle_fee(Uint64::from(30_000))
         .build();
 
     gen_return_from_entity!(DataType::ConfigCellSubAccount, entity)
