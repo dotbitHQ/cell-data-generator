@@ -123,26 +123,26 @@ fn gen_config_cell_main() -> String {
     // it will be use for search and replace in deploy scripts.
     /* CAREFUL do not commit any changes for these configs below ⬇️ */
     let type_id_table = TypeIdTable::new_builder()
-        .account_cell(Hash::from([0u8; 32]))
-        .account_sale_cell(Hash::from([0u8; 32]))
+        .account_cell(Hash::from([17, 6, 217, 234, 204, 222, 9, 149, 167, 224, 126, 128, 221, 12, 231, 80, 159, 33, 117, 37, 56, 223, 221, 30, 226, 82, 109, 36, 87, 72, 70, 177]))
+        .account_sale_cell(Hash::from([148, 56, 18, 74, 189, 244, 203, 191, 214, 16, 101, 232, 182, 69, 35, 23, 43, 239, 94, 239, 226, 124, 183, 105, 196, 10, 202, 240, 54, 170, 137, 194]))
         // .account_auction_cell(Hash::from([]))
-        .apply_register_cell(Hash::from([0u8; 32]))
-        .balance_cell(Hash::from([0u8; 32]))
-        .income_cell(Hash::from([0u8; 32]))
-        .offer_cell(Hash::from([0u8; 32]))
-        .pre_account_cell(Hash::from([0u8; 32]))
-        .proposal_cell(Hash::from([0u8; 32]))
-        .reverse_record_cell(Hash::from([0u8; 32]))
-        .sub_account_cell(Hash::from([0u8; 32]))
+        .apply_register_cell(Hash::from([15, 191, 248, 113, 221, 5, 174, 225, 253, 162, 190, 56, 120, 106, 210, 29, 82, 162, 118, 92, 96, 37, 209, 239, 105, 39, 215, 97, 213, 26, 60, 209]))
+        .balance_cell(Hash::from([79, 245, 143, 44, 118, 180, 172, 38, 253, 246, 117, 170, 130, 84, 30, 2, 228, 207, 137, 98, 121, 198, 214, 152, 45, 23, 185, 89, 120, 139, 47, 12]))
+        .income_cell(Hash::from([8, 209, 205, 198, 171, 146, 217, 202, 190, 0, 150, 162, 199, 100, 47, 115, 208, 239, 27, 36, 201, 76, 67, 242, 28, 108, 58, 50, 255, 224, 187, 94]))
+        .offer_cell(Hash::from([26, 63, 2, 170, 137, 101, 26, 24, 17, 47, 12, 33, 208, 174, 55, 10, 134, 225, 63, 106, 6, 12, 55, 129, 132, 205, 133, 154, 123, 182, 82, 3]))
+        .pre_account_cell(Hash::from([108, 132, 65, 35, 63, 0, 116, 25, 85, 246, 94, 71, 103, 33, 161, 165, 65, 121, 151, 193, 228, 54, 136, 1, 201, 156, 127, 97, 127, 139, 117, 68]))
+        .proposal_cell(Hash::from([103, 212, 140, 9, 17, 228, 6, 81, 141, 226, 17, 107, 217, 28, 106, 243, 124, 5, 241, 219, 35, 51, 76, 168, 41, 210, 175, 48, 66, 66, 126, 68]))
+        .reverse_record_cell(Hash::from([97, 113, 20, 22, 70, 143, 165, 33, 30, 173, 95, 36, 198, 243, 239, 173, 251, 188, 51, 34, 116, 197, 212, 14, 80, 198, 254, 173, 203, 95, 150, 6]))
+        .sub_account_cell(Hash::from([139, 176, 65, 55, 1, 205, 210, 227, 166, 97, 204, 137, 20, 230, 121, 14, 22, 214, 25, 206, 103, 73, 48, 103, 30, 105, 88, 7, 39, 75, 209, 76]))
         .build();
 
     let das_lock_out_point_table = DasLockOutPointTable::new_builder()
-        .ckb_signall(out_point!([0u8; 32], 0))
+        .ckb_signall(out_point!([32, 155, 53, 32, 141, 167, 210, 13, 136, 47, 8, 113, 243, 151, 156, 104, 197, 57, 129, 188, 196, 202, 167, 18, 116, 192, 53, 68, 144, 116, 208, 130], 0))
         // .ckb_multisign(out_point!([], 0))
         // .ckb_anyone_can_pay(out_point!([], 0))
-        .eth(out_point!([0u8; 32], 0))
-        .tron(out_point!([0u8; 32], 0))
-        .ed25519(out_point!([0u8; 32], 0))
+        .eth(out_point!([143, 250, 64, 155, 160, 125, 116, 240, 143, 99, 192, 63, 130, 183, 66, 141, 54, 40, 95, 231, 91, 33, 115, 252, 36, 118, 192, 247, 184, 12, 112, 122], 0))
+        .tron(out_point!([5, 67, 234, 58, 146, 251, 66, 127, 238, 92, 207, 179, 64, 103, 12, 29, 36, 235, 167, 141, 171, 253, 14, 189, 86, 115, 141, 252, 49, 36, 64, 94], 0))
+        .ed25519(out_point!([167, 6, 244, 110, 88, 227, 85, 166, 210, 157, 115, 19, 245, 72, 173, 210, 27, 135, 86, 57, 234, 112, 96, 93, 24, 246, 130, 193, 160, 135, 64, 214], 0))
         .build();
     /* CAREFUL do not commit any changes for these configs above ⬆️ */
 
@@ -382,11 +382,11 @@ fn gen_config_cell_sub_account() -> String {
         .prepared_fee_capacity(Uint64::from(2_000_000_000))
         .new_sub_account_price(Uint64::from(100_000_000))
         .renew_sub_account_price(Uint64::from(100_000_000))
-        .common_fee(Uint64::from(30_000))
-        .create_fee(Uint64::from(30_000))
-        .edit_fee(Uint64::from(30_000))
-        .renew_fee(Uint64::from(30_000))
-        .recycle_fee(Uint64::from(30_000))
+        .common_fee(Uint64::from(100_000))
+        .create_fee(Uint64::from(100_000))
+        .edit_fee(Uint64::from(100_000))
+        .renew_fee(Uint64::from(100_000))
+        .recycle_fee(Uint64::from(100_000))
         .build();
 
     gen_return_from_entity!(DataType::ConfigCellSubAccount, entity)
