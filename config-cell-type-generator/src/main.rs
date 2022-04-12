@@ -399,9 +399,13 @@ fn gen_config_cell_sub_account_beta_list() -> String {
         .expect("Expect file ./data/sub_account_beta_list.txt exist.");
 
     for line in lines {
-        if let Ok(account_hash_string) = line {
-            let account_hash: Vec<u8> = hex::decode(account_hash_string).unwrap();
-            sub_account_beta_list.push(account_hash.get(..ACCOUNT_ID_LENGTH).unwrap().to_vec());
+        if let Ok(account) = line {
+            let account_hash = blake2b_256(account.as_bytes())
+                .get(..ACCOUNT_ID_LENGTH)
+                .unwrap()
+                .to_vec();
+
+            sub_account_beta_list.push(account_hash);
         }
     }
 
