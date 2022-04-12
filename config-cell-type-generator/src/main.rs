@@ -409,7 +409,7 @@ fn gen_config_cell_sub_account_beta_list() -> String {
     let mut raw = sub_account_beta_list.into_iter().flatten().collect::<Vec<u8>>();
     raw = util::prepend_molecule_like_length(raw);
 
-    gen_return_from_raw!(DataType::ConfigCellUnAvailableAccount, raw)
+    gen_return_from_raw!(DataType::ConfigCellSubAccountBetaList, raw)
 }
 
 // fn calc_config_cells_need_update() {
