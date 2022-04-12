@@ -393,6 +393,7 @@ fn gen_config_cell_sub_account() -> String {
 }
 
 fn gen_config_cell_sub_account_beta_list() -> String {
+    // If there is only the 0xd83bc404a35ee0c4c2055d5ac13a5c323aae494a is ConfigCell, it means the beta is end.
     let mut sub_account_beta_list = Vec::new();
     let lines = util::read_lines("sub_account_beta_list.txt")
         .expect("Expect file ./data/sub_account_beta_list.txt exist.");
