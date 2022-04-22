@@ -327,10 +327,10 @@ fn gen_config_cell_release() -> String {
     // release to 60% = 2576980377
 
     #[cfg(feature = "mainnet")]
-    let lucky_number = 1932735282;
+    let lucky_number = 2576980377;
 
     #[cfg(not(feature = "mainnet"))]
-    let lucky_number = 2147483647;
+    let lucky_number = 2576980377;
 
     let entity = ConfigCellRelease::new_builder()
         .lucky_number(Uint32::from(lucky_number))
