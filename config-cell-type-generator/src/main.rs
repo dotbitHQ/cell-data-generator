@@ -138,7 +138,7 @@ fn gen_config_cell_main() -> String {
 
     let das_lock_out_point_table = DasLockOutPointTable::new_builder()
         .ckb_signall(out_point!([0u8; 32], 0))
-        // .ckb_multisign(out_point!([], 0))
+        .ckb_multisign(out_point!([0u8; 32], 0))
         // .ckb_anyone_can_pay(out_point!([], 0))
         .eth(out_point!([0u8; 32], 0))
         .tron(out_point!([0u8; 32], 0))
