@@ -134,6 +134,7 @@ fn gen_config_cell_main() -> String {
         .proposal_cell(Hash::from([0u8; 32]))
         .reverse_record_cell(Hash::from([0u8; 32]))
         .sub_account_cell(Hash::from([0u8; 32]))
+        .eip712_lib(Hash::from([0u8; 32]))
         .build();
 
     let das_lock_out_point_table = DasLockOutPointTable::new_builder()
