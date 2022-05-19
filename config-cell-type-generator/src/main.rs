@@ -283,7 +283,7 @@ fn gen_config_cell_reserved_account() -> String {
 fn gen_config_cell_char_set() -> String {
     let settings: Vec<(DataType, &str, u8)> = vec![
         (DataType::ConfigCellCharSetEmoji, "char_set_emoji.txt", 1),
-        (DataType::ConfigCellCharSetDigit, "char_set_digit.txt", 1),
+        (DataType::ConfigCellCharSetDigit, "char_set_digit_and_symbol.txt", 1),
         (DataType::ConfigCellCharSetEn, "char_set_en.txt", 0),
         // (DataType::ConfigCellCharSetZhHans, "char_set_zh_hans.txt", 0),
         // (DataType::ConfigCellCharSetZhHant, "char_set_zh_hant.txt", 0),
