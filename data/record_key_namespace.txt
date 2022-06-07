@@ -15,6 +15,7 @@ profile.youtube
 profile.bilibili
 profile.tiktok
 profile.jike
+profile.nextid
 address.btc
 address.eth
 address.ckb
