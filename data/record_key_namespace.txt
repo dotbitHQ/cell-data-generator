@@ -56,3 +56,4 @@ address.celo
 dweb.ipfs
 dweb.ipns
 dweb.resilio
+dweb.skynet
