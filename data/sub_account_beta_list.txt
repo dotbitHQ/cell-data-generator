@@ -16,3 +16,5 @@ fsat19.bit
 fsat20.bit
 2008.bit
 2077.bit
+bitwitness.bit
+didwitness.bit
