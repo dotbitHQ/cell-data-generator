@@ -290,7 +290,7 @@ fn gen_config_cell_char_set() -> String {
         (DataType::ConfigCellCharSetJp, "char_set_jp.txt", 0),
         (DataType::ConfigCellCharSetKo, "char_set_ko.txt", 0),
         (DataType::ConfigCellCharSetRu, "char_set_ru.txt", 0),
-        (DataType::ConfigCellCharSetTur, "char_set_tur.txt", 0),
+        (DataType::ConfigCellCharSetTr, "char_set_tr.txt", 0),
         (DataType::ConfigCellCharSetTh, "char_set_th.txt", 0),
         (DataType::ConfigCellCharSetVi, "char_set_vi.txt", 0),
 
