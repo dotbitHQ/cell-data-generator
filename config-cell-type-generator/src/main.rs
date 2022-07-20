@@ -288,6 +288,13 @@ fn gen_config_cell_char_set() -> String {
         (DataType::ConfigCellCharSetEn, "char_set_en.txt", 0),
         // (DataType::ConfigCellCharSetZhHans, "char_set_zh_hans.txt", 0),
         // (DataType::ConfigCellCharSetZhHant, "char_set_zh_hant.txt", 0),
+        (DataType::ConfigCellCharSetJp, "char_set_jp.txt", 0),
+        (DataType::ConfigCellCharSetKo, "char_set_ko.txt", 0),
+        (DataType::ConfigCellCharSetRu, "char_set_ru.txt", 0),
+        (DataType::ConfigCellCharSetTur, "char_set_tur.txt", 0),
+        (DataType::ConfigCellCharSetTh, "char_set_th.txt", 0),
+        (DataType::ConfigCellCharSetVi, "char_set_vi.txt", 0),
+
     ];
 
     let mut output = String::new();
