@@ -288,22 +288,28 @@ fn gen_config_cell_char_set() -> String {
         (DataType::ConfigCellCharSetEn, "char_set_en.txt", 0),
         // (DataType::ConfigCellCharSetZhHans, "char_set_zh_hans.txt", 0),
         // (DataType::ConfigCellCharSetZhHant, "char_set_zh_hant.txt", 0),
-        (DataType::ConfigCellCharSetJp, "char_set_jp.txt", 0),
-        (DataType::ConfigCellCharSetKo, "char_set_ko.txt", 0),
+        (DataType::ConfigCellCharSetJa, "char_set_ja.txt", 0),
+        // (DataType::ConfigCellCharSetKo, "char_set_ko.txt", 0),
         (DataType::ConfigCellCharSetRu, "char_set_ru.txt", 0),
         (DataType::ConfigCellCharSetTr, "char_set_tr.txt", 0),
-        (DataType::ConfigCellCharSetTh, "char_set_th.txt", 0),
+        // (DataType::ConfigCellCharSetTh, "char_set_th.txt", 0),
         (DataType::ConfigCellCharSetVi, "char_set_vi.txt", 0),
 
     ];
 
     let mut output = String::new();
     let mut comma = "";
+    // let mut dedup_chars = Vec::new();
     for (_i, setting) in settings.iter().enumerate() {
         let mut charsets = Vec::new();
         let lines = read_lines(setting.1).expect(format!("Expect file ./data/{} exist.", setting.1).as_str());
         for line in lines {
             if let Ok(char) = line {
+                // if dedup_chars.contains(&char) {
+                //     println!("{} find duplicated char: {} 0x{}", setting.1, char, hex::encode(char.as_bytes()));
+                // } else {
+                //     dedup_chars.push(char.clone());
+                // }
                 charsets.push(char);
             }
         }
