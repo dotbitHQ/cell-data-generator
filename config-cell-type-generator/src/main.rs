@@ -304,12 +304,16 @@ fn gen_config_cell_char_set() -> String {
         let lines = read_lines(setting.1).expect(format!("Expect file ./data/{} exist.", setting.1).as_str());
         for line in lines {
             if let Ok(char) = line {
+                let cleared_char = char.trim().to_string();
+                if cleared_char.is_empty() {
+                    continue;
+                }
                 // if dedup_chars.contains(&char) {
                 //     println!("{} find duplicated char: {} 0x{}", setting.1, char, hex::encode(char.as_bytes()));
                 // } else {
                 //     dedup_chars.push(char.clone());
                 // }
-                charsets.push(char);
+                charsets.push(cleared_char);
             }
         }
 
