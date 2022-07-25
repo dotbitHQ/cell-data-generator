@@ -308,6 +308,10 @@ fn gen_config_cell_char_set() -> String {
                 if cleared_char.is_empty() {
                     continue;
                 }
+                if cleared_char.as_bytes().contains(&0u8) {
+                    // CAREFUL! Characters which contains 0x00 are not allowed, so it exists warn the developer to review the config file.
+                    panic!("File {} character {} contains 0x00 byte.", setting.1, cleared_char);
+                }
                 // if dedup_chars.contains(&char) {
                 //     println!("{} find duplicated char: {} 0x{}", setting.1, char, hex::encode(char.as_bytes()));
                 // } else {
