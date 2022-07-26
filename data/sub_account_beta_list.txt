@@ -19,3 +19,4 @@ fsat20.bit
 bitwitness.bit
 didwitness.bit
 yin.bit
+cmbintl.bit
