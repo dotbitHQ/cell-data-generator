@@ -288,10 +288,10 @@ fn gen_config_cell_char_set() -> String {
         // (DataType::ConfigCellCharSetZhHans, "char_set_zh_hans.txt", 0),
         // (DataType::ConfigCellCharSetZhHant, "char_set_zh_hant.txt", 0),
         (DataType::ConfigCellCharSetJa, "char_set_ja.txt", 0),
-        // (DataType::ConfigCellCharSetKo, "char_set_ko.txt", 0),
+        (DataType::ConfigCellCharSetKo, "char_set_ko.txt", 0),
         (DataType::ConfigCellCharSetRu, "char_set_ru.txt", 0),
         (DataType::ConfigCellCharSetTr, "char_set_tr.txt", 0),
-        // (DataType::ConfigCellCharSetTh, "char_set_th.txt", 0),
+        (DataType::ConfigCellCharSetTh, "char_set_th.txt", 0),
         (DataType::ConfigCellCharSetVi, "char_set_vi.txt", 0),
 
     ];
@@ -404,10 +404,10 @@ fn gen_config_cell_sub_account() -> String {
         .basic_capacity(Uint64::from(20_000_000_000))
         .prepared_fee_capacity(Uint64::from(2_000_000_000))
         .new_sub_account_price(Uint64::from(100_000_000))
-        .new_sub_account_custom_price_das_profit_rate(Uint32::from(300))
         .renew_sub_account_price(Uint64::from(100_000_000))
-        .renew_sub_account_custom_price_das_profit_rate(Uint32::from(300))
+        .new_sub_account_custom_price_das_profit_rate(Uint32::from(300))
         .common_fee(Uint64::from(100_000))
+        .renew_sub_account_custom_price_das_profit_rate(Uint32::from(300))
         .create_fee(Uint64::from(100_000))
         .edit_fee(Uint64::from(100_000))
         .renew_fee(Uint64::from(100_000))
