@@ -20,3 +20,4 @@ bitwitness.bit
 didwitness.bit
 yin.bit
 cmbintl.bit
+race.bit
