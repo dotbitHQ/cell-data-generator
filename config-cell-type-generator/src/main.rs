@@ -287,16 +287,37 @@ fn gen_config_cell_char_set() -> String {
         (DataType::ConfigCellCharSetEn, "char_set_en.txt", 0),
         // (DataType::ConfigCellCharSetZhHans, "char_set_zh_hans.txt", 0),
         // (DataType::ConfigCellCharSetZhHant, "char_set_zh_hant.txt", 0),
+        (DataType::ConfigCellCharSetJa, "char_set_ja.txt", 0),
+        (DataType::ConfigCellCharSetKo, "char_set_ko.txt", 0),
+        (DataType::ConfigCellCharSetRu, "char_set_ru.txt", 0),
+        (DataType::ConfigCellCharSetTr, "char_set_tr.txt", 0),
+        (DataType::ConfigCellCharSetTh, "char_set_th.txt", 0),
+        (DataType::ConfigCellCharSetVi, "char_set_vi.txt", 0),
+
     ];
 
     let mut output = String::new();
     let mut comma = "";
+    // let mut dedup_chars = Vec::new();
     for (_i, setting) in settings.iter().enumerate() {
         let mut charsets = Vec::new();
         let lines = read_lines(setting.1).expect(format!("Expect file ./data/{} exist.", setting.1).as_str());
         for line in lines {
             if let Ok(char) = line {
-                charsets.push(char);
+                let cleared_char = char.trim().to_string();
+                if cleared_char.is_empty() {
+                    continue;
+                }
+                if cleared_char.as_bytes().contains(&0u8) {
+                    // CAREFUL! Characters which contains 0x00 are not allowed, so it exists warn the developer to review the config file.
+                    panic!("File {} character {} contains 0x00 byte.", setting.1, cleared_char);
+                }
+                // if dedup_chars.contains(&char) {
+                //     println!("{} find duplicated char: {} 0x{}", setting.1, char, hex::encode(char.as_bytes()));
+                // } else {
+                //     dedup_chars.push(char.clone());
+                // }
+                charsets.push(cleared_char);
             }
         }
 
@@ -384,7 +405,9 @@ fn gen_config_cell_sub_account() -> String {
         .prepared_fee_capacity(Uint64::from(2_000_000_000))
         .new_sub_account_price(Uint64::from(100_000_000))
         .renew_sub_account_price(Uint64::from(100_000_000))
+        .new_sub_account_custom_price_das_profit_rate(Uint32::from(300))
         .common_fee(Uint64::from(100_000))
+        .renew_sub_account_custom_price_das_profit_rate(Uint32::from(300))
         .create_fee(Uint64::from(100_000))
         .edit_fee(Uint64::from(100_000))
         .renew_fee(Uint64::from(100_000))
