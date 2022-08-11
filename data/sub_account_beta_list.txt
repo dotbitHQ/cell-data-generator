@@ -21,3 +21,4 @@ didwitness.bit
 yin.bit
 cmbintl.bit
 race.bit
+0xecho.bit
