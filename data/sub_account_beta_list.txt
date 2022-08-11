@@ -22,3 +22,4 @@ yin.bit
 cmbintl.bit
 race.bit
 0xecho.bit
+roao.bit
