@@ -23,3 +23,5 @@ cmbintl.bit
 race.bit
 0xecho.bit
 roao.bit
+digitalfreemasonry.bit
+sograph.bit
