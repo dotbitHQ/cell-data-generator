@@ -163,7 +163,7 @@ fn gen_config_cell_price() -> String {
 
     #[cfg(feature = "mainnet")]
     let prices = PriceConfigList::new_builder()
-        .push(gen_price_config(1, 1024_000_000, 1024_000_000))
+        .push(gen_price_config(1, 1_000_000, 1_000_000))
         .push(gen_price_config(2, 1024_000_000, 1024_000_000))
         .push(gen_price_config(3, 660_000_000, 660_000_000))
         .push(gen_price_config(4, 160_000_000, 160_000_000))
@@ -175,7 +175,7 @@ fn gen_config_cell_price() -> String {
 
     #[cfg(not(feature = "mainnet"))]
     let prices = PriceConfigList::new_builder()
-        .push(gen_price_config(1, u64::MAX, u64::MAX))
+        .push(gen_price_config(1, 1_000_000, 1_000_000))
         .push(gen_price_config(2, 30_000_000, 30_000_000))
         .push(gen_price_config(3, 20_000_000, 20_000_000))
         .push(gen_price_config(4, 10_000_000, 10_000_000))
