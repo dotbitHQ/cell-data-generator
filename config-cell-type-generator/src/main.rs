@@ -1,7 +1,9 @@
+#![allow(dead_code)]
+
 use ckb_hash::blake2b_256;
 use das_types_std::{constants::*, packed::*, prelude::*, util as das_util};
 use faster_hex::hex_string;
-use util::{gen_price_config, gen_timestamp, prepend_molecule_like_length, read_lines};
+use util::{gen_price_config, prepend_molecule_like_length, read_lines};
 
 mod constants;
 mod util;
