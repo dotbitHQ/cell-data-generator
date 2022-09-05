@@ -25,3 +25,5 @@ race.bit
 roao.bit
 digitalfreemasonry.bit
 sograph.bit
+0x.bit
+😊.bit
