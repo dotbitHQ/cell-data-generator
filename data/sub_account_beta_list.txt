@@ -31,3 +31,5 @@ snwdao.bit
 superheronftwars.bit
 snwverse.bit
 snwofficial.bit
+kolalabs.bit
+kola.bit
