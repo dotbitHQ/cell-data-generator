@@ -86,7 +86,7 @@ fn gen_config_cell_account() -> String {
         .basic_capacity(Uint64::from(20_600_000_000))
         .prepared_fee_capacity(Uint64::from(100_000_000))
         // Only 3 days for testing
-        .expiration_grace_period(Uint32::from(2_592_00))
+        .expiration_grace_period(Uint32::from(2_592_000))
         .record_min_ttl(Uint32::from(300))
         .record_size_limit(Uint32::from(5000))
         .transfer_account_fee(Uint64::from(10_000))
