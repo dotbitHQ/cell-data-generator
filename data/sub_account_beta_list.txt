@@ -33,3 +33,11 @@ snwverse.bit
 snwofficial.bit
 kolalabs.bit
 kola.bit
+x2y2.bit
+hoyo.bit
+relx.bit
+moma.bit
+neom.bit
+dalle.bit
+midjourney.bit
+openmeta.bit
