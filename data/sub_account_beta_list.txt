@@ -41,3 +41,4 @@ neom.bit
 dalle.bit
 midjourney.bit
 openmeta.bit
+lifedao.bit
