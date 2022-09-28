@@ -44,3 +44,4 @@ openmeta.bit
 lifedao.bit
 onekey.bit
 1key.bit
+v2ex.bit
