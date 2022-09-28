@@ -42,3 +42,5 @@ dalle.bit
 midjourney.bit
 openmeta.bit
 lifedao.bit
+onekey.bit
+1key.bit
