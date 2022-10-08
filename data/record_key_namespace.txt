@@ -62,3 +62,4 @@ dweb.ipfs
 dweb.ipns
 dweb.resilio
 dweb.skynet
+dweb.arweave
