@@ -41,3 +41,8 @@ neom.bit
 dalle.bit
 midjourney.bit
 openmeta.bit
+lifedao.bit
+onekey.bit
+1key.bit
+v2ex.bit
+chuandaoshi.bit
