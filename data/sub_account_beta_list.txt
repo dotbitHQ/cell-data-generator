@@ -46,3 +46,4 @@ onekey.bit
 1key.bit
 v2ex.bit
 chuandaoshi.bit
+dider.bit
