@@ -48,3 +48,4 @@ v2ex.bit
 chuandaoshi.bit
 dider.bit
 nervos.bit
+taiwanmemenews.bit
