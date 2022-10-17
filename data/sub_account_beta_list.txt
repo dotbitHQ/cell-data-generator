@@ -47,3 +47,4 @@ onekey.bit
 v2ex.bit
 chuandaoshi.bit
 dider.bit
+nervos.bit
