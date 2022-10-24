@@ -49,3 +49,4 @@ chuandaoshi.bit
 dider.bit
 nervos.bit
 taiwanmemenews.bit
+7774.bit
