@@ -502,6 +502,20 @@ fn gen_config_cell_unavailable_account() -> String {
     gen_return_from_raw!(DataType::ConfigCellUnAvailableAccount, raw)
 }
 
+fn gen_config_cell_system_version() -> String {
+    let mut raw = 1u32.to_le_bytes().to_vec();
+    raw = util::prepend_molecule_like_length(raw);
+
+    gen_return_from_raw!(DataType::ConfigCellSystemVersion, raw)
+}
+
+fn gen_config_cell_system_status() -> String {
+    let mut raw = (SystemStatus::On as u8).to_le_bytes().to_vec();
+    raw = util::prepend_molecule_like_length(raw);
+
+    gen_return_from_raw!(DataType::ConfigCellSystemStatus, raw)
+}
+
 fn main() {
     print!("{},", gen_config_cell_account());
     print!("{},", gen_config_cell_apply());
@@ -518,6 +532,8 @@ fn main() {
     print!("{},", gen_config_cell_sub_account_beta_list());
     print!("{},", gen_config_cell_reserved_account());
     print!("{},", gen_config_cell_unavailable_account());
+    print!("{},", gen_config_cell_system_version());
+    print!("{},", gen_config_cell_system_status());
     print!("{}", gen_config_cell_char_set());
     print!("\n");
 }
