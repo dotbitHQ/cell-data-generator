@@ -50,3 +50,4 @@ dider.bit
 nervos.bit
 taiwanmemenews.bit
 7774.bit
+sfbw22.bit
