@@ -56,3 +56,4 @@ mail3dao.bit
 web3betalab.bit
 ckbsociety.bit
 jindao.bit
+makeafriend.bit
