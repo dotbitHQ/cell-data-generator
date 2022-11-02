@@ -52,3 +52,7 @@ taiwanmemenews.bit
 7774.bit
 sfbw22.bit
 mail3dao.bit
+0021.bit
+web3betalab.bit
+ckbsociety.bit
+jindao.bit
