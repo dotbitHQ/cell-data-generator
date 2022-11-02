@@ -57,3 +57,4 @@ web3betalab.bit
 ckbsociety.bit
 jindao.bit
 makeafriend.bit
+neymarjr2022.bit
