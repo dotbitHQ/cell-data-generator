@@ -64,3 +64,4 @@ fractalid.bit
 harmony.bit
 harmonyprotocol.bit
 mail3er.bit
+relationlabs.bit
