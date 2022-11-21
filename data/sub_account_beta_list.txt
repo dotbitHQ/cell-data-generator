@@ -67,3 +67,8 @@ mail3er.bit
 relationlabs.bit
 ckbfans.bit
 biolinkx.bit
+sovren.bit
+commonknowledge.bit
+nervosnation.bit
+assurepro.bit
+cluster3.bit
