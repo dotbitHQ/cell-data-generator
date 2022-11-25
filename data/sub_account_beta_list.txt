@@ -72,3 +72,4 @@ commonknowledge.bit
 nervosnation.bit
 assurepro.bit
 cluster3.bit
+cheersup.bit
