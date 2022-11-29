@@ -73,3 +73,4 @@ nervosnation.bit
 assurepro.bit
 cluster3.bit
 cheersup.bit
+godwoken.bit
