@@ -74,3 +74,4 @@ assurepro.bit
 cluster3.bit
 cheersup.bit
 godwoken.bit
+vietnam11k.bit
