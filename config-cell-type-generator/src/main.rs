@@ -410,11 +410,11 @@ fn gen_config_cell_sub_account() -> String {
         .new_sub_account_custom_price_das_profit_rate(Uint32::from(300))
         .renew_sub_account_price(Uint64::from(100_000_000))
         .renew_sub_account_custom_price_das_profit_rate(Uint32::from(300))
-        .common_fee(Uint64::from(100_000))
-        .create_fee(Uint64::from(100_000))
-        .edit_fee(Uint64::from(100_000))
-        .renew_fee(Uint64::from(100_000))
-        .recycle_fee(Uint64::from(100_000))
+        .common_fee(Uint64::from(200_000))
+        .create_fee(Uint64::from(0))
+        .edit_fee(Uint64::from(0))
+        .renew_fee(Uint64::from(0))
+        .recycle_fee(Uint64::from(0))
         .build();
 
     gen_return_from_entity!(DataType::ConfigCellSubAccount, entity)

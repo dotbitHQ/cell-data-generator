@@ -11,3 +11,4 @@ target/
 
 # Other
 *tmp
+Cargo.lock
