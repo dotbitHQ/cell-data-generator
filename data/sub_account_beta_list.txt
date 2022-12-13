@@ -80,6 +80,6 @@ pekingmonster.bit
 dotbitgsd.bit
 lurkers.bit
 sutuan.bit
-mods.bit
 12036.bit
 bitgravity.bit
+quan.bit
