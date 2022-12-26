@@ -84,3 +84,10 @@ sutuan.bit
 bitgravity.bit
 quan.bit
 debox.bit
+piscesnft.bit
+dotbit.bit
+joydev.bit
+piscesnft.bit
+dotbit.bit
+joydev.bit
+pool.bit
