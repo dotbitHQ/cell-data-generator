@@ -91,3 +91,4 @@ piscesnft.bit
 dotbit.bit
 joydev.bit
 pool.bit
+piweb3.bit
