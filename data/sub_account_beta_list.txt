@@ -92,3 +92,5 @@ dotbit.bit
 joydev.bit
 pool.bit
 piweb3.bit
+dotbitalpha.bit
+kolo.bit
