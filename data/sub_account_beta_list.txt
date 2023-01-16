@@ -94,3 +94,8 @@ pool.bit
 piweb3.bit
 dotbitalpha.bit
 kolo.bit
+launchpad565.bit
+magik.bit
+0591.bit
+0571.bit
+0371.bit
