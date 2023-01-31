@@ -99,3 +99,7 @@ magik.bit
 0591.bit
 0571.bit
 0371.bit
+bitcarnival.bit
+blockem.bit
+days.bit
+wadsleyguild.bit
