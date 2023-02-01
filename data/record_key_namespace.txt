@@ -20,6 +20,7 @@ profile.dribbble
 profile.behance
 profile.mirror
 profile.medium
+profile.nostr
 address.btc
 address.eth
 address.ckb
