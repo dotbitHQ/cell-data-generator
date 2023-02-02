@@ -103,3 +103,4 @@ bitcarnival.bit
 blockem.bit
 days.bit
 wadsleyguild.bit
+qiuqiu1990.bit
