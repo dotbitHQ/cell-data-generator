@@ -116,8 +116,6 @@ longlongbtc.bit
 seethelight.bit
 unipass.bit
 cryptosteve.bit
-earlybird.bit
-earlybird.bit
 -ins-.bit
 earlybird.bit
 flyingpiggy.bit
