@@ -123,3 +123,5 @@ jiaolian.bit
 starzq.bit
 web3caff.bit
 allsto.bit
+jianchen.bit
+horong007.bit
