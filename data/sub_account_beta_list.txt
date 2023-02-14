@@ -126,3 +126,4 @@ allsto.bit
 jianchen.bit
 horong007.bit
 5211314.bit
+bscnews.bit
