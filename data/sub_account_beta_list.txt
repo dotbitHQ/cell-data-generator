@@ -127,3 +127,6 @@ jianchen.bit
 horong007.bit
 5211314.bit
 bscnews.bit
+habittrade.bit
+misesbrowser.bit
+dodo.bit
