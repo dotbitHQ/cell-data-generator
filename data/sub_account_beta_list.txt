@@ -151,3 +151,5 @@ daxiang.bit
 iwish.bit
 cometrue.bit
 superdid.bit
+saber.bit
+jojo.bit
