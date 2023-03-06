@@ -153,3 +153,7 @@ cometrue.bit
 superdid.bit
 saber.bit
 jojo.bit
+itismoeen.bit
+whale.bit
+aiart.bit
+midjourney.bit
