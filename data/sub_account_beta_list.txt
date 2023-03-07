@@ -157,3 +157,7 @@ itismoeen.bit
 whale.bit
 aiart.bit
 midjourney.bit
+money.bit
+1818.bit
+1616.bit
+1999.bit
