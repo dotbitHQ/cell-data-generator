@@ -164,3 +164,4 @@ money.bit
 juu17s.bit
 notennigiri.bit
 0xmiddle.bit
+klvrs.bit
