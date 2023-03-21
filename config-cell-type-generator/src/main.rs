@@ -1,5 +1,7 @@
 #![allow(dead_code)]
 
+use std::convert::TryFrom;
+
 use ckb_hash::blake2b_256;
 use das_types_std::{constants::*, packed::*, prelude::*, util as das_util};
 use faster_hex::hex_string;
@@ -149,10 +151,20 @@ fn gen_config_cell_main() -> String {
         .build();
     /* CAREFUL do not commit any changes for these configs above ⬆️ */
 
+    let das_lock_type_id_table = DasLockTypeIdTable::new_builder()
+        .ckb_signhash(Hash::try_from(hex::decode("f7e5ee57bfc0a17d3796cdae5a5b07c590668777166499d56178d510e1344765").unwrap()).unwrap())
+        .ckb_multisig(Hash::try_from(hex::decode("144f1ba88ec1fd316a37b5498552efce3447be8b74300fb6b92ad0efcbe964bb").unwrap()).unwrap())
+        .ed25519(Hash::try_from(hex::decode("3000f8c98b8b020b8a0785320d24f73b3ba37fc1d4697c1a00fc8dda0bbc1cc7").unwrap()).unwrap())
+        .eth(Hash::try_from(hex::decode("6bbd5ca9bbdbe9a03f51329b2c6d06017ee2ae20546f724f70f79b8922a7d5b1").unwrap()).unwrap())
+        .tron(Hash::try_from(hex::decode("79e9a08713a6818f1fbabb05da5a048342781b34d80e7f64b758be581197bdd3").unwrap()).unwrap())
+        .doge(Hash::try_from(hex::decode("1d13b5f6956c55dc13e8fb58b8aa7be2db429078d131fc140ccf94132a302a57").unwrap()).unwrap())
+        .build();
+
     let entity = ConfigCellMain::new_builder()
         .status(Uint8::from(SystemStatus::On as u8))
         .type_id_table(type_id_table)
         .das_lock_out_point_table(das_lock_out_point_table)
+        .das_lock_type_id_table(das_lock_type_id_table)
         .build();
 
     gen_return_from_entity!(DataType::ConfigCellMain, entity)
@@ -507,14 +519,14 @@ fn gen_config_cell_system_status() -> String {
         .pre_account_cell_type(ContractStatus::new(true, "1.4.0"))
         .proposal_cell_type(ContractStatus::new(true, "1.3.0"))
         .config_cell_type(ContractStatus::new(true, "1.1.2"))
-        .account_cell_type(ContractStatus::new(true, "1.7.0"))
+        .account_cell_type(ContractStatus::new(true, "1.7.1"))
         .account_sale_cell_type(ContractStatus::new(true, "1.1.1"))
-        .sub_account_cell_type(ContractStatus::new(true, "1.3.0"))
+        .sub_account_cell_type(ContractStatus::new(true, "1.3.1"))
         .offer_cell_type(ContractStatus::new(true, "1.0.1"))
         .balance_cell_type(ContractStatus::new(true, "1.3.0"))
         .income_cell_type(ContractStatus::new(true, "1.2.1"))
         .reverse_record_cell_type(ContractStatus::new(true, "1.0.1"))
-        .eip712_lib(ContractStatus::new(true, "1.0.0"))
+        .eip712_lib(ContractStatus::new(true, "1.1.0"))
         .build();
 
     gen_return_from_entity!(DataType::ConfigCellSystemStatus, entity)
