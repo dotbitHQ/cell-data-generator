@@ -168,3 +168,5 @@ klvrs.bit
 sojudao.bit
 muzic.bit
 -club.bit
+cdex.bit
+mrfish.bit
