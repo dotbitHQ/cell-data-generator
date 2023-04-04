@@ -137,6 +137,7 @@ fn gen_config_cell_main() -> String {
         .pre_account_cell(Hash::from([24, 171, 135, 20, 126, 142, 129, 0, 10, 177, 185, 243, 25, 165, 120, 77, 76, 123, 108, 152, 169, 206, 201, 125, 115, 138, 92, 17, 246, 158, 114, 84]))
         .proposal_cell(Hash::from([97, 39, 164, 26, 208, 84, 158, 133, 116, 162, 91, 77, 135, 167, 65, 79, 30, 32, 87, 147, 6, 201, 67, 197, 63, 254, 125, 3, 243, 133, 155, 190]))
         .reverse_record_cell(Hash::from([235, 201, 225, 54, 88, 246, 223, 19, 89, 60, 245, 155, 126, 156, 209, 89, 96, 43, 108, 60, 125, 84, 177, 77, 234, 67, 186, 230, 0, 235, 174, 17]))
+        .reverse_record_root_cell(Hash::from([92,52,245,206,99,91,116,229,127,26,112,130,91,231,90,38,102,110,1,25,106,25,69,52,33,16,213,226,70,104,179,221]))
         .sub_account_cell(Hash::from([99, 81, 109, 232, 187, 81, 142, 209, 34, 94, 59, 99, 241, 56, 204, 190, 24, 228, 23, 147, 45, 36, 15, 19, 39, 200, 232, 107, 163, 39, 244, 180]))
         .eip712_lib(Hash::from([143, 130, 57, 130, 148, 121, 34, 122, 157, 213, 140, 199, 61, 163, 119, 191, 224, 135, 149, 137, 174, 178, 105, 205, 246, 23, 112, 147, 253, 179, 99, 137]))
         .build();
@@ -525,7 +526,8 @@ fn gen_config_cell_system_status() -> String {
         .offer_cell_type(ContractStatus::new(true, "1.0.1"))
         .balance_cell_type(ContractStatus::new(true, "1.3.0"))
         .income_cell_type(ContractStatus::new(true, "1.2.1"))
-        .reverse_record_cell_type(ContractStatus::new(true, "1.0.1"))
+        .reverse_record_cell_type(ContractStatus::new(true, "1.1.0"))
+        .reverse_record_root_cell_type(ContractStatus::new(true, "1.0.0"))
         .eip712_lib(ContractStatus::new(true, "1.1.0"))
         .build();
 
