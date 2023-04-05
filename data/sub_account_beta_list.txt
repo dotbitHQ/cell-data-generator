@@ -170,3 +170,4 @@ muzic.bit
 -club.bit
 cdex.bit
 mrfish.bit
+furious.bit
